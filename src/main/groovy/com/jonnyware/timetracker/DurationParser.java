@@ -6,16 +6,16 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 public class DurationParser {
-    private final String d;
+    private final String duration;
     private final LocalDate day;
 
     public DurationParser(LocalDate day, String duration) {
-        this.d = duration;
+        this.duration = duration;
         this.day = day;
     }
 
     public Interval getDuration() {
-        String[] splitted = d.split("-");
+        String[] splitted = duration.split("-");
         String from = splitted[0];
         String to = splitted[1];
         return new Interval(time(from), time(to));

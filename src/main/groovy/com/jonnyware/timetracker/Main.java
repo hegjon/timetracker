@@ -10,5 +10,4 @@ public class Main {
         YearParser parser = new YearParser(new FileInputStream(file));
         System.out.println(parser.getYear());
     }
-
 }

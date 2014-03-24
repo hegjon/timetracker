@@ -33,7 +33,7 @@ public class DurationParserTest {
     }
 
     @Test
-    public void hoursMinuds10Minutes() {
+    public void hoursMinus10Minutes2() {
         DurationParser parser = new DurationParser(day, "08.50-16.00");
         Interval expected = new Interval(new DateTime(2014, 1, 1, 8, 50), new DateTime(2014, 1, 1, 16, 00));
         assertEquals(expected, parser.getDuration());

@@ -1,5 +1,6 @@
 package com.jonnyware.timetracker
 
+import org.joda.time.Interval
 import org.joda.time.LocalDate
 import org.yaml.snakeyaml.Yaml
 
@@ -15,7 +16,7 @@ class YearParser {
     }
 
     int getYear() {
-        parsed.year
+        parsed.get("year")
     }
 
     final months = [
@@ -57,6 +58,28 @@ class YearParser {
                 [date, new DurationParser(date, duration).getDuration()]
             }
         }
+    }
 
+    public Collection<Interval> listTimeEntries() {
+        Collection<Interval> result = new LinkedList<>();
+
+        for(Month month: Month.values()) {
+            if(!parsed.get(month.getPretty())) {
+                continue;
+            }
+
+            for(Map.Entry<String, String> entry : parsed.get(month.getPretty())) {
+                int dayOfMonth = Integer.valueOf(entry.getKey());
+                String value = entry.getValue();
+
+                if(Character.isDigit(value.codePointAt(0))) {
+                    LocalDate date = new LocalDate(year, month.getIndex(), dayOfMonth);
+                    Interval interval = new DurationParser(date, value).getDuration();
+                    result.add(interval);
+                }
+            }
+        }
+
+        return result;
     }
 }
