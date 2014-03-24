@@ -6,6 +6,6 @@ repositories {
 
 dependencies {
     compile 'org.yaml:snakeyaml:1.11'
-    compile 'org.codehaus.groovy:groovy:2.2.1'
+    compile 'org.codehaus.groovy:groovy:1.8.9'
     testCompile 'junit:junit:4.11'
 }
