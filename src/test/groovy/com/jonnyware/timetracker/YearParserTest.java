@@ -6,9 +6,6 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.junit.Test;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -36,9 +33,8 @@ public class YearParserTest {
                 " 10:  =Public holiday\n";
 
         YearParser parser = new YearParser(content);
-        LinkedHashMap<LocalDate, NeutralDay> map = new LinkedHashMap<LocalDate, NeutralDay>(1);
-        map.put(new LocalDate(2014, 6, 10), new NeutralDay("Public holiday"));
-        assertEquals(parser.getEntries(), map);
+        LocalDate day = new LocalDate(2014, 6, 10);
+        assertEquals(new NeutralDay("Public holiday"), parser.neutralDays().get(day));
     }
 
     @Test
@@ -49,9 +45,8 @@ public class YearParserTest {
                 " 27:  +Skiing\n";
 
         YearParser parser = new YearParser(content);
-        LinkedHashMap<LocalDate, Vacation> map = new LinkedHashMap<LocalDate, Vacation>(1);
-        map.put(new LocalDate(2014, 2, 27), new Vacation("Skiing"));
-        assertEquals(parser.getEntries(), map);
+        LocalDate day = new LocalDate(2014, 2, 27);
+        assertEquals(new Vacation("Skiing"), parser.listVacations().get(day));
     }
 
     @Test

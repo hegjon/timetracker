@@ -19,45 +19,48 @@ class YearParser {
         parsed.get("year")
     }
 
-    final months = [
-            0: "january",
-            1: "february",
-            2: "march",
-            3: "april",
-            4: "may",
-            5: "june",
-            6: "july",
-            7: "august",
-            8: "september",
-            9: "october",
-            10: "november",
-            11: "december"
-    ]
+    public Map<LocalDate, NeutralDay> neutralDays() {
+        Map<LocalDate, Vacation> result = new HashMap<>();
 
-    Map<LocalDate, java.lang.Object> getEntries() {
-        months.collectEntries { index, name ->
-            durationsForOneMonth(index, name)
-        }
-    }
+        for(Month month: Month.values()) {
+            if(!parsed.get(month.getPretty())) {
+                continue;
+            }
 
-    private Map<LocalDate, java.lang.Object> durationsForOneMonth(int index, String name) {
-        if(!parsed.containsKey(name)) {
-            return [:]
-        }
+            for(Map.Entry<String, String> entry : parsed.get(month.getPretty())) {
+                int dayOfMonth = Integer.valueOf(entry.getKey());
+                String value = entry.getValue();
 
-        Map<String, String> month = parsed.get(name)
-
-        month.collectEntries { day, duration ->
-            def date = new LocalDate(year, index+1, day.toInteger())
-
-            if(duration.startsWith("=")) {
-                [date, new NeutralDay(duration.substring(1))]
-            } else if(duration.startsWith("+")) {
-                [date, new Vacation(duration.substring(1))]
-            } else {
-                [date, new DurationParser(date, duration).getDuration()]
+                if(value.startsWith("=")) {
+                    LocalDate date = new LocalDate(year, month.getIndex(), dayOfMonth);
+                    result.put(date, new NeutralDay(value.substring(1)));
+                }
             }
         }
+
+        return result;
+    }
+
+    public Map<LocalDate, Vacation> listVacations() {
+        Map<LocalDate, Vacation> result = new HashMap<>();
+
+        for(Month month: Month.values()) {
+            if(!parsed.get(month.getPretty())) {
+                continue;
+            }
+
+            for(Map.Entry<String, String> entry : parsed.get(month.getPretty())) {
+                int dayOfMonth = Integer.valueOf(entry.getKey());
+                String value = entry.getValue();
+
+                if(value.startsWith("+")) {
+                    LocalDate date = new LocalDate(year, month.getIndex(), dayOfMonth);
+                    result.put(date, new Vacation(value.substring(1)));
+                }
+            }
+        }
+
+        return result;
     }
 
     public Collection<Interval> listTimeEntries() {
