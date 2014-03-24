@@ -5,15 +5,15 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class Vacation {
+public class NeutralDay {
     private final String comment;
 
-    public Vacation(String comment) {
+    public NeutralDay(String comment) {
         Validate.notNull(comment);
         this.comment = comment;
     }
 
-    public String getComment() {
+    public final String getComment() {
         return comment;
     }
 
@@ -28,7 +28,7 @@ public class Vacation {
         if (obj.getClass() != getClass()) {
             return false;
         }
-        Vacation rhs = (Vacation) obj;
+        NeutralDay rhs = (NeutralDay) obj;
         return new EqualsBuilder().append(comment, rhs.comment).isEquals();
     }
 

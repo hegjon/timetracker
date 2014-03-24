@@ -5,6 +5,8 @@ repositories {
 }
 
 dependencies {
+    compile 'joda-time:joda-time:2.3'
+    compile 'org.apache.commons:commons-lang3:3.1'
     compile 'org.yaml:snakeyaml:1.11'
     compile 'org.codehaus.groovy:groovy:1.8.9'
     testCompile 'junit:junit:4.11'

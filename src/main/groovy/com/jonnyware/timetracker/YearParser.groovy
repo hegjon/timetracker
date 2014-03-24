@@ -1,14 +1,17 @@
 package com.jonnyware.timetracker
 
-import groovy.time.TimeDuration
+import org.joda.time.LocalDate
 import org.yaml.snakeyaml.Yaml
 
 class YearParser {
     Map<String, Object> parsed
 
     YearParser(String content) {
-        Yaml yaml = new Yaml()
-        parsed = yaml.load(content)
+        parsed = new Yaml().load(content)
+    }
+
+    YearParser(InputStream input) {
+        parsed = new Yaml().load(input)
     }
 
     int getYear() {
@@ -30,13 +33,13 @@ class YearParser {
             11: "december"
     ]
 
-    Map<Date, TimeDuration> getEntries() {
+    Map<LocalDate, java.lang.Object> getEntries() {
         months.collectEntries { index, name ->
             durationsForOneMonth(index, name)
         }
     }
 
-    Map<Date, TimeDuration> durationsForOneMonth(int index, String name) {
+    private Map<LocalDate, java.lang.Object> durationsForOneMonth(int index, String name) {
         if(!parsed.containsKey(name)) {
             return [:]
         }
@@ -44,14 +47,14 @@ class YearParser {
         Map<String, String> month = parsed.get(name)
 
         month.collectEntries { day, duration ->
-            def date = new Date(year, index, day)
+            def date = new LocalDate(year, index+1, day.toInteger())
 
             if(duration.startsWith("=")) {
                 [date, new NeutralDay(duration.substring(1))]
             } else if(duration.startsWith("+")) {
                 [date, new Vacation(duration.substring(1))]
             } else {
-                [date, new DurationParser(duration).duration]
+                [date, new DurationParser(date, duration).getDuration()]
             }
         }
 

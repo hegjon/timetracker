@@ -1,6 +1,8 @@
 package com.jonnyware.timetracker
 
-import groovy.time.TimeDuration
+import org.joda.time.Interval
+import org.joda.time.LocalDate
+import org.joda.time.LocalTime
 import org.junit.Test
 
 class YearParserTest {
@@ -60,7 +62,10 @@ january:
 '''
 
         def parser = new YearParser(content)
-        assert parser.entries == [(new Date(2014, 0, 1)) : new TimeDuration(8, 0, 0, 0)]
+        def day = new LocalDate(2014, 1, 1)
+        def from = day.toDateTime(new LocalTime(8, 0))
+        def to = day.toDateTime(new LocalTime(16, 0))
+        assert parser.entries.get(day) == new Interval(from, to)
     }
 
     @Test
@@ -74,7 +79,7 @@ january:
 '''
 
         def parser = new YearParser(content)
-        assert parser.entries == [(new Date(2014, 0, 1)) : new NeutralDay("Public holiday")]
+        assert parser.entries == [(new LocalDate(2014, 1, 1)) : new NeutralDay("Public holiday")]
     }
 
     @Test
@@ -88,7 +93,7 @@ january:
 '''
 
         def parser = new YearParser(content)
-        assert parser.entries == [(new Date(2014, 0, 1)) : new Vacation("Skiing")]
+        assert parser.entries == [(new LocalDate(2014, 1, 1)) : new Vacation("Skiing")]
     }
 
 
@@ -115,6 +120,10 @@ may:
 '''
 
         def parser = new YearParser(content)
-        assert parser.entries == [(new Date(2014, 4, 17)) : new TimeDuration(7, 30, 0, 0)]
+        def day = new LocalDate(2014, 5, 17)
+        def start = day.toDateTime(new LocalTime(10, 30))
+        def end = day.toDateTime(new LocalTime(18, 0))
+        def actual = parser.entries
+        assert actual.get(day) == new Interval(start, end)
     }
 }
