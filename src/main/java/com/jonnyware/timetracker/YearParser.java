@@ -80,7 +80,7 @@ public class YearParser {
 
             Map<Integer, String> monthEntries = (Map<Integer, String>) parsed.get(month.getPretty());
             for (Map.Entry<Integer, String> entry : monthEntries.entrySet()) {
-                int dayOfMonth = entry.getKey();
+                Integer dayOfMonth = entry.getKey();
                 String value = entry.getValue();
 
                 if (Character.isDigit(value.codePointAt(0))) {
