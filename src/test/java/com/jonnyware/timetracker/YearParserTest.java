@@ -54,7 +54,7 @@ public class YearParserTest {
         String content = "year: 2014";
 
         YearParser parser = new YearParser(content);
-        assertEquals(2014, parser.getYear());
+        assertEquals((Integer)2014, parser.getYear());
         assertTrue(parser.listTimeEntries().isEmpty());
     }
 }

@@ -21,12 +21,12 @@ public class YearParser {
         parsed = ((Map<String, Object>) (new Yaml().load(input)));
     }
 
-    public int getYear() {
-        return ((int) (parsed.get("year")));
+    public Integer getYear() {
+        return ((Integer) parsed.get("year"));
     }
 
     public Map<LocalDate, NeutralDay> neutralDays() {
-        Map<LocalDate, NeutralDay> result = new HashMap<>();
+        Map<LocalDate, NeutralDay> result = new HashMap<LocalDate, NeutralDay>();
 
         for (Month month : Month.values()) {
             if (!parsed.containsKey(month.getPretty())) {
@@ -48,7 +48,7 @@ public class YearParser {
     }
 
     public Map<LocalDate, Vacation> listVacations() {
-        Map<LocalDate, Vacation> result = new HashMap<>();
+        Map<LocalDate, Vacation> result = new HashMap<LocalDate, Vacation>();
 
         for (Month month : Month.values()) {
             if (!parsed.containsKey(month.getPretty())) {
@@ -71,7 +71,7 @@ public class YearParser {
     }
 
     public Collection<Interval> listTimeEntries() {
-        Collection<Interval> result = new LinkedList<>();
+        Collection<Interval> result = new LinkedList<Interval>();
 
         for (Month month : Month.values()) {
             if (!parsed.containsKey(month.getPretty())) {
