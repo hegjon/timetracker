@@ -10,14 +10,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-public class YearParser {
+public class TimeEntryParser {
     private Map<String, Object> parsed;
 
-    public YearParser(String content) {
+    public TimeEntryParser(String content) {
         parsed = ((Map<String, Object>) (new Yaml().load(content)));
     }
 
-    public YearParser(InputStream input) {
+    public TimeEntryParser(InputStream input) {
         parsed = ((Map<String, Object>) (new Yaml().load(input)));
     }
 

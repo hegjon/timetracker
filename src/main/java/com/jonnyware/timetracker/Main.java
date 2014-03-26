@@ -15,7 +15,7 @@ import java.util.TreeMap;
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         File file = new File(args[0]);
-        YearParser parser = new YearParser(new FileInputStream(file));
+        TimeEntryParser parser = new TimeEntryParser(new FileInputStream(file));
         System.out.println("Year: " + parser.getYear());
         System.out.println("----------------");
 

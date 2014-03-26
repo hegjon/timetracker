@@ -9,7 +9,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class YearParserTest {
+public class TimeEntryParserTest {
     @Test
     public void oneDay() {
         String content =
@@ -17,7 +17,7 @@ public class YearParserTest {
                 "april:\n" +
                 " 1:  08.00-16.00\n";
 
-        YearParser parser = new YearParser(content);
+        TimeEntryParser parser = new TimeEntryParser(content);
         LocalDate day = new LocalDate(2014, 4, 1);
         DateTime from = day.toDateTime(new LocalTime(8, 0));
         DateTime to = day.toDateTime(new LocalTime(16, 0));
@@ -32,7 +32,7 @@ public class YearParserTest {
                 "june:\n" +
                 " 10:  =Public holiday\n";
 
-        YearParser parser = new YearParser(content);
+        TimeEntryParser parser = new TimeEntryParser(content);
         LocalDate day = new LocalDate(2014, 6, 10);
         assertEquals(new NeutralDay("Public holiday"), parser.neutralDays().get(day));
     }
@@ -44,7 +44,7 @@ public class YearParserTest {
                 "february:\n" +
                 " 27:  +Skiing\n";
 
-        YearParser parser = new YearParser(content);
+        TimeEntryParser parser = new TimeEntryParser(content);
         LocalDate day = new LocalDate(2014, 2, 27);
         assertEquals(new Vacation("Skiing"), parser.listVacations().get(day));
     }
@@ -53,7 +53,7 @@ public class YearParserTest {
     public void empty() {
         String content = "year: 2014";
 
-        YearParser parser = new YearParser(content);
+        TimeEntryParser parser = new TimeEntryParser(content);
         assertEquals((Integer)2014, parser.getYear());
         assertTrue(parser.listTimeEntries().isEmpty());
     }
