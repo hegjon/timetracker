@@ -4,27 +4,14 @@ import org.joda.time.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 import static org.junit.Assert.assertEquals;
 
 public class DiffCalculatorTest {
-
     private DiffCalculator calculator;
 
     @Before
     public void createCalculator() {
-        Map<Integer, Duration> defaultWeekdayDuration = new TreeMap<Integer, Duration>();
-        defaultWeekdayDuration.put(1, Duration.standardHours(8));
-        defaultWeekdayDuration.put(2, Duration.standardHours(8));
-        defaultWeekdayDuration.put(3, Duration.standardHours(8));
-        defaultWeekdayDuration.put(4, Duration.standardHours(8));
-        defaultWeekdayDuration.put(5, Duration.standardHours(8));
-        defaultWeekdayDuration.put(6, Duration.ZERO);
-        defaultWeekdayDuration.put(7, Duration.ZERO);
-
-        calculator = new DiffCalculator(defaultWeekdayDuration);
+        calculator = new DiffCalculator(DefaultWeekdayDurationParser.defaultDuration());
     }
 
     @Test
