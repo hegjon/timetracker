@@ -53,4 +53,5 @@ public class DefaultWeekdayDurationParserTest {
         assertEquals(Period.hours(8).withMinutes(0).toStandardDuration(),  actual.get(5));
         assertEquals(Period.hours(2).withMinutes(0).toStandardDuration(),  actual.get(6));
         assertEquals(Period.hours(0).withMinutes(0).toStandardDuration(),  actual.get(7));
-    }}
+    }
+}
