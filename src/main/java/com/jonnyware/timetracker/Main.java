@@ -2,7 +2,6 @@ package com.jonnyware.timetracker;
 
 import org.joda.time.Duration;
 import org.joda.time.Interval;
-import org.joda.time.Period;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
@@ -11,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
@@ -30,6 +30,17 @@ public class Main {
                 .appendSuffix("m")
                 .toFormatter();
 
+        Map<Integer, Duration> defaultWeekdayDuration = new TreeMap<Integer, Duration>();
+        defaultWeekdayDuration.put(1, Duration.standardHours(8));
+        defaultWeekdayDuration.put(2, Duration.standardHours(8));
+        defaultWeekdayDuration.put(3, Duration.standardHours(8));
+        defaultWeekdayDuration.put(4, Duration.standardHours(8));
+        defaultWeekdayDuration.put(5, Duration.standardHours(8));
+        defaultWeekdayDuration.put(6, Duration.ZERO);
+        defaultWeekdayDuration.put(7, Duration.ZERO);
+
+        DiffCalculator calculator = new DiffCalculator(defaultWeekdayDuration);
+
         Duration totalSummed = Duration.ZERO;
         Duration totalDiff = Duration.ZERO;
         for (Map.Entry<Integer, Collection<Interval>> week : groupBy.weekOfYear().entrySet()) {
@@ -37,14 +48,10 @@ public class Main {
             Duration diffPerWeek = Duration.ZERO;
             for (Interval interval : week.getValue()) {
                 Duration duration = interval.toDuration();
+                Duration diff = calculator.calculateDiff(interval);
 
-                Duration p = Duration.standardHours(8);
-                if(interval.getStart().getDayOfWeek() >= 6) {
-                    p = Duration.ZERO;
-                }
-
-                diffPerWeek = diffPerWeek.plus(duration).minus(p);
-                totalDiff = totalDiff.plus(duration).minus(p);
+                diffPerWeek = diffPerWeek.plus(diff);
+                totalDiff = totalDiff.plus(diff);
 
                 totalPerWeek = totalPerWeek.plus(duration);
                 totalSummed = totalSummed.plus(duration);
