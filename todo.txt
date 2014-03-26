@@ -1,3 +1,1 @@
 * Multiple intervals per day
-* Move the diff out in a seperate class with unit tests
-* Make it possible to override the default hours used in diff

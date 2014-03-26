@@ -1,6 +1,5 @@
 package com.jonnyware.timetracker;
 
-import org.apache.commons.lang3.Validate;
 import org.joda.time.Duration;
 import org.joda.time.Period;
 

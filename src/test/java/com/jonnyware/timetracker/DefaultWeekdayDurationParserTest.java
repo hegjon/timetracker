@@ -45,6 +45,7 @@ public class DefaultWeekdayDurationParserTest {
 
         DefaultWeekdayDurationParser durationParser = parser(content);
         Map<Integer, Duration> actual = durationParser.getSpecifiedMergedWithDefault();
+
         assertEquals(7, actual.size());
         assertEquals(Period.hours(9).withMinutes(30).toStandardDuration(), actual.get(1));
         assertEquals(Period.hours(8).withMinutes(0).toStandardDuration(),  actual.get(2));
