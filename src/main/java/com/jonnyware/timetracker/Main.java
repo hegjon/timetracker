@@ -2,6 +2,7 @@ package com.jonnyware.timetracker;
 
 import org.joda.time.Duration;
 import org.joda.time.Interval;
+import org.joda.time.Period;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
@@ -29,19 +30,33 @@ public class Main {
                 .appendSuffix("m")
                 .toFormatter();
 
-        Duration total = new Duration(0);
+        Duration totalSummed = Duration.ZERO;
+        Duration totalDiff = Duration.ZERO;
         for (Map.Entry<Integer, Collection<Interval>> week : groupBy.weekOfYear().entrySet()) {
-            Duration totalPerWeek = new Duration(0);
+            Duration totalPerWeek = Duration.ZERO;
+            Duration diffPerWeek = Duration.ZERO;
             for (Interval interval : week.getValue()) {
-                totalPerWeek = totalPerWeek.plus(interval.toDuration());
-                total = total.plus(interval.toDuration());
+                Duration duration = interval.toDuration();
+
+                Duration p = Duration.standardHours(8);
+                if(interval.getStart().getDayOfWeek() >= 6) {
+                    p = Duration.ZERO;
+                }
+
+                diffPerWeek = diffPerWeek.plus(duration).minus(p);
+                totalDiff = totalDiff.plus(duration).minus(p);
+
+                totalPerWeek = totalPerWeek.plus(duration);
+                totalSummed = totalSummed.plus(duration);
             }
 
             String formatted = formatter.print(totalPerWeek.toPeriod());
-            System.out.println("Week " + week.getKey() + ":\t " + formatted);
+            String diff = formatter.print(diffPerWeek.toPeriod());
+            System.out.println("Week " + week.getKey() + ":\t " + formatted + "\t (" + diff + ")");
         }
         System.out.println("----------------");
-        String formatted = formatter.print(total.toPeriod());
-        System.out.println("Total:\t " + formatted);
+        String formatted = formatter.print(totalSummed.toPeriod());
+        String diffTotal = formatter.print(totalDiff.toPeriod());
+        System.out.println("Total:\t " + formatted + "\t (" + diffTotal + ")");
     }
 }

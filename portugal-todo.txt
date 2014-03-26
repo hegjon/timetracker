@@ -10,8 +10,13 @@
  - Sum the total + the diff
 
 * Make a RPM that works on Fedora 20
- - Just get something to work.
- - Use best practices and depend on packages provided by Fedora for the dependencies.
+ v Just get something to work.
+ v Use best practices and depend on packages provided by Fedora for the dependencies.
+ - Try to get it to work on CentOS6/RHEL6.
+
+* Make a generic zip package
+ - Should work on Mac OSX and Windows (but not limited to those).
+ - Contains all the dependencies except the JRE
 
 * Decide on a license.
  - Open Source
