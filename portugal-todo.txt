@@ -23,3 +23,7 @@
  - Short and easy to understand.
  - "permissive" - little restrictions
 
+* Naming components
+ - Fileformat
+ - Package
+ - Command

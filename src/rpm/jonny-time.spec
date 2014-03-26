@@ -23,7 +23,7 @@ Requires:      apache-commons-codec
 Hmm..
 
 %package javadoc
-Summary:          Javadoc for %{name}
+Summary: Javadoc for %{name}
 
 %description javadoc
 API documentation for %{name}.
