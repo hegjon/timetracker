@@ -11,7 +11,7 @@ public class DurationParserTest {
     private final LocalDate day = new LocalDate(2014, 1, 1);
 
     @Test
-    public void onlyHours() {
+    public void hoursAndZeroAppendedMinutes() {
         DurationParser parser = new DurationParser(day, "08.00-16.00");
 
         Interval expected = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 16, 0));
@@ -19,23 +19,16 @@ public class DurationParserTest {
     }
 
     @Test
-    public void hoursPlus10Minutes() {
-        DurationParser parser = new DurationParser(day, "08.00-16.10");
-        Interval expected = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 16, 10));
+    public void hoursAndMinutes() {
+        DurationParser parser = new DurationParser(day, "08.10-16.50");
+        Interval expected = new Interval(new DateTime(2014, 1, 1, 8, 10), new DateTime(2014, 1, 1, 16, 50));
         assertEquals(expected, parser.getDuration());
     }
 
     @Test
-    public void hoursMinus10Minutes() {
-        DurationParser parser = new DurationParser(day, "08.00-15.50");
-        Interval expected = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 15, 50));
-        assertEquals(expected, parser.getDuration());
-    }
-
-    @Test
-    public void hoursMinus10Minutes2() {
-        DurationParser parser = new DurationParser(day, "08.50-16.00");
-        Interval expected = new Interval(new DateTime(2014, 1, 1, 8, 50), new DateTime(2014, 1, 1, 16, 0));
+    public void hoursNoMinutes() {
+        DurationParser parser = new DurationParser(day, "08-16");
+        Interval expected = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 16, 0));
         assertEquals(expected, parser.getDuration());
     }
 }
