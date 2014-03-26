@@ -7,7 +7,8 @@ License: Not decided
 URL: http://jonnyware.com
 
 Source0: %{name}.tar.gz
-BuildArch:  noarch
+BuildArch: noarch
+
 BuildRequires: java-devel >= 1:1.5.0
 BuildRequires: maven-local
 Requires:      java-headless >= 1:1.5.0
