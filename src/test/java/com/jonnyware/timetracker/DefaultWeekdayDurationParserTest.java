@@ -35,15 +35,22 @@ public class DefaultWeekdayDurationParserTest {
     }
 
     @Test
-    public void overrideOneDay() {
+    public void many() {
         String content = "default:\n" +
-                " monday: 9h30m\n";
+                " monday:    9h30m\n" +
+                " tuesday:   8h\n" +
+                " wednesday: 8h0m\n" +
+                " thursday:  0h\n" +
+                " saturday:  2h00m\n";
 
         DefaultWeekdayDurationParser durationParser = parser(content);
         Map<Integer, Duration> actual = durationParser.getSpecifiedMergedWithDefault();
         assertEquals(7, actual.size());
         assertEquals(Period.hours(9).withMinutes(30).toStandardDuration(), actual.get(1));
-        assertEquals(Duration.standardHours(8), actual.get(2));
-        assertEquals(Duration.ZERO, actual.get(7));
-    }
-}
+        assertEquals(Period.hours(8).withMinutes(0).toStandardDuration(),  actual.get(2));
+        assertEquals(Period.hours(8).withMinutes(0).toStandardDuration(),  actual.get(3));
+        assertEquals(Period.hours(0).withMinutes(0).toStandardDuration(),  actual.get(4));
+        assertEquals(Period.hours(8).withMinutes(0).toStandardDuration(),  actual.get(5));
+        assertEquals(Period.hours(2).withMinutes(0).toStandardDuration(),  actual.get(6));
+        assertEquals(Period.hours(0).withMinutes(0).toStandardDuration(),  actual.get(7));
+    }}
