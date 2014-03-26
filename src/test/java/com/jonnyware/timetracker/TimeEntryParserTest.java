@@ -5,11 +5,19 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.junit.Test;
+import org.yaml.snakeyaml.Yaml;
+
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TimeEntryParserTest {
+    private TimeEntryParser parser(String content) {
+        Map<String, Object> parsed = (Map<String, Object>) new Yaml().load(content);
+        return new TimeEntryParser(parsed);
+    }
+
     @Test
     public void oneDay() {
         String content =
@@ -17,7 +25,7 @@ public class TimeEntryParserTest {
                 "april:\n" +
                 " 1:  08.00-16.00\n";
 
-        TimeEntryParser parser = new TimeEntryParser(content);
+        TimeEntryParser parser = parser(content);
         LocalDate day = new LocalDate(2014, 4, 1);
         DateTime from = day.toDateTime(new LocalTime(8, 0));
         DateTime to = day.toDateTime(new LocalTime(16, 0));
@@ -32,7 +40,7 @@ public class TimeEntryParserTest {
                 "june:\n" +
                 " 10:  =Public holiday\n";
 
-        TimeEntryParser parser = new TimeEntryParser(content);
+        TimeEntryParser parser = parser(content);
         LocalDate day = new LocalDate(2014, 6, 10);
         assertEquals(new NeutralDay("Public holiday"), parser.neutralDays().get(day));
     }
@@ -44,7 +52,7 @@ public class TimeEntryParserTest {
                 "february:\n" +
                 " 27:  +Skiing\n";
 
-        TimeEntryParser parser = new TimeEntryParser(content);
+        TimeEntryParser parser = parser(content);
         LocalDate day = new LocalDate(2014, 2, 27);
         assertEquals(new Vacation("Skiing"), parser.listVacations().get(day));
     }
@@ -53,7 +61,7 @@ public class TimeEntryParserTest {
     public void empty() {
         String content = "year: 2014";
 
-        TimeEntryParser parser = new TimeEntryParser(content);
+        TimeEntryParser parser = parser(content);
         assertEquals((Integer)2014, parser.getYear());
         assertTrue(parser.listTimeEntries().isEmpty());
     }

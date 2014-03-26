@@ -2,23 +2,17 @@ package com.jonnyware.timetracker;
 
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
-import org.yaml.snakeyaml.Yaml;
 
-import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
 public class TimeEntryParser {
-    private Map<String, Object> parsed;
+    private final Map<String, Object> parsed;
 
-    public TimeEntryParser(String content) {
-        parsed = ((Map<String, Object>) (new Yaml().load(content)));
-    }
-
-    public TimeEntryParser(InputStream input) {
-        parsed = ((Map<String, Object>) (new Yaml().load(input)));
+    public TimeEntryParser(Map<String, Object> parsed) {
+        this.parsed = parsed;
     }
 
     public Integer getYear() {

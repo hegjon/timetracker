@@ -4,6 +4,7 @@ import org.joda.time.Duration;
 import org.joda.time.Interval;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,7 +16,8 @@ import java.util.TreeMap;
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         File file = new File(args[0]);
-        TimeEntryParser parser = new TimeEntryParser(new FileInputStream(file));
+        Map<String, Object> parsed = (Map<String, Object>) new Yaml().load(new FileInputStream(file));
+        TimeEntryParser parser = new TimeEntryParser(parsed);
         System.out.println("Year: " + parser.getYear());
         System.out.println("----------------");
 
