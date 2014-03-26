@@ -1,13 +1,21 @@
 package com.jonnyware.timetracker;
 
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
+import org.joda.time.*;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
+import org.joda.time.format.PeriodParser;
+
+import java.util.Locale;
 
 public class DurationParser {
     private final String duration;
     private final LocalDate day;
+
+    private static final PeriodFormatter formatter = new PeriodFormatterBuilder()
+            .appendHours()
+            .appendSeparator(".")
+            .appendMinutes()
+            .toFormatter();
 
     public DurationParser(LocalDate day, String duration) {
         this.duration = duration;
@@ -22,11 +30,8 @@ public class DurationParser {
     }
 
     private DateTime time(String value) {
-        String[] values = value.split("\\.");
-        Integer hour = Integer.valueOf(values[0]);
-        Integer minute = Integer.valueOf(values[1]);
-
-        LocalTime time = new LocalTime(hour, minute);
+        Period p = formatter.parsePeriod(value);
+        LocalTime time = new LocalTime(p.getHours(), p.getMinutes());
         return day.toDateTime(time);
     }
 }
