@@ -21,7 +21,10 @@ public class Main {
         Collection<Interval> entries = parser.listTimeEntries();
         IntervalGroupBy groupBy = new IntervalGroupBy(entries);
 
-        DiffCalculator calculator = new DiffCalculator(DefaultWeekdayDurationParser.defaultDuration());
+        DefaultWeekdayDurationParser defaultDurationParser = new DefaultWeekdayDurationParser(parsed);
+        Map<Integer, Duration> hoursPerWeekday = defaultDurationParser.getSpecifiedMergedWithDefault();
+
+        DiffCalculator calculator = new DiffCalculator(hoursPerWeekday);
 
         Duration totalSummed = Duration.ZERO;
         Duration totalDiff = Duration.ZERO;
