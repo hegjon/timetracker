@@ -1,0 +1,20 @@
+* Define the fileformat
+ - Normal working day with 0 in "diff".
+ - Normal working day with positive time "diff".
+ - Normal working day with negative time "diff".
+ - Public holiday with no work should produce a zero "diff" day.
+ - Working on a public holiday should produce a positive "diff" no matter how many hours worked. 
+
+* Make a commandline program:
+ - Print out per week how many hours that is been spent on working + the diff.
+ - Sum the total + the diff
+
+* Make a RPM that works on Fedora 20
+ - Just get something to work.
+ - Use best practices and depend on packages provided by Fedora for the dependencies.
+
+* Decide on a license.
+ - Open Source
+ - Short and easy to understand.
+ - "permissive" - little restrictions
+
