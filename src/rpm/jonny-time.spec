@@ -17,6 +17,7 @@ BuildRequires: joda-time
 BuildRequires: apache-commons-lang3
 BuildRequires: snakeyaml
 BuildRequires: junit >= 4
+BuildRequires: hamcrest
 Requires:      apache-commons-codec
 
 %description
