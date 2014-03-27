@@ -40,7 +40,7 @@ public class DefaultWeekdayDurationParser {
             for(Weekday weekday : Weekday.values()) {
                 if(weekdays.containsKey(weekday.getPretty())) {
                     String specified = weekdays.get(weekday.getPretty());
-                    Period period = HourMinutesFormatter.DEFAULT.parsePeriod(specified);
+                    Period period = HourMinutesFormatter.parse(specified);
                     result.put(weekday.getIndex(), period.toStandardDuration());
                 }
             }

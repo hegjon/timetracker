@@ -42,13 +42,13 @@ public class Main {
                 totalSummed = totalSummed.plus(duration);
             }
 
-            String formatted = HourMinutesFormatter.DEFAULT.print(totalPerWeek.toPeriod());
-            String diff = HourMinutesFormatter.DEFAULT.print(diffPerWeek.toPeriod());
+            String formatted = HourMinutesFormatter.print(totalPerWeek.toPeriod());
+            String diff = HourMinutesFormatter.print(diffPerWeek.toPeriod());
             System.out.println("Week " + week.getKey() + ":\t " + formatted + "\t (" + diff + ")");
         }
         System.out.println("----------------");
-        String formatted = HourMinutesFormatter.DEFAULT.print(totalSummed.toPeriod());
-        String diffTotal = HourMinutesFormatter.DEFAULT.print(totalDiff.toPeriod());
+        String formatted = HourMinutesFormatter.print(totalSummed.toPeriod());
+        String diffTotal = HourMinutesFormatter.print(totalDiff.toPeriod());
         System.out.println("Total:\t " + formatted + "\t (" + diffTotal + ")");
     }
 }
