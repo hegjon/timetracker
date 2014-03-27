@@ -1,6 +1,7 @@
 package com.jonnyware.timetracker;
 
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.joda.time.Period;
 import org.yaml.snakeyaml.Yaml;
 
@@ -8,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 public class Main {
@@ -19,7 +21,11 @@ public class Main {
         System.out.println("----------------");
 
         Collection<Interval> entries = parser.listTimeEntries();
+        Map<LocalDate, Vacation> vacations = parser.listVacations();
+        DateGroupByWeek vacationByWeek = new DateGroupByWeek(vacations);
+
         IntervalGroupBy groupBy = new IntervalGroupBy(entries);
+        Map<Integer, Collection<Interval>> weeks = groupBy.weekOfYear();
 
         DefaultWeekdayDurationParser defaultDurationParser = new DefaultWeekdayDurationParser(parsed);
         Map<Integer, Period> hoursPerWeekday = defaultDurationParser.getSpecifiedMergedWithDefault();
@@ -28,12 +34,15 @@ public class Main {
 
         Period totalSummed = Period.ZERO;
         Period totalDiff = Period.ZERO;
-        Map<Integer, Collection<Interval>> weeks = groupBy.weekOfYear();
         for (int weekNumber = 1; weekNumber <= 53; weekNumber++) {
-            if(!weeks.containsKey(weekNumber)) {
+            Map<String, Integer> vacationForThisWeek = vacationByWeek.getComments(weekNumber);
+            if (!weeks.containsKey(weekNumber) && vacationForThisWeek.isEmpty()) {
                 continue;
             }
-            Collection<Interval> values = weeks.get(weekNumber);
+            Collection<Interval> values = Collections.EMPTY_LIST;
+            if (weeks.containsKey(weekNumber)) {
+                values = weeks.get(weekNumber);
+            }
 
             Period totalPerWeek = Period.ZERO;
             Period diffPerWeek = Period.ZERO;
@@ -51,7 +60,11 @@ public class Main {
             String formatted = HourMinutesFormatter.print(totalPerWeek);
             String diff = HourMinutesFormatter.print(diffPerWeek);
 
-            System.out.println("Week " + weekNumber + ":\t " + formatted + "\t (" + diff + ")");
+            System.out.print("Week " + weekNumber + ":\t " + formatted + "\t (" + diff + ")");
+            if (!vacationForThisWeek.isEmpty()) {
+                System.out.print("\t " + vacationForThisWeek.toString());
+            }
+            System.out.println();
         }
         System.out.println("----------------");
         String formatted = HourMinutesFormatter.print(totalSummed);
