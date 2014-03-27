@@ -18,17 +18,17 @@ public class DefaultWeekdayDurationParserTest {
 
     @Test
     public void nullShouldBeThreatedAsEmpty() {
-        Map<Integer, Duration> actual = new DefaultWeekdayDurationParser(null).getSpecifiedMergedWithDefault();
+        Map<Integer, Period> actual = new DefaultWeekdayDurationParser(null).getSpecifiedMergedWithDefault();
         assertEquals(7, actual.size());
     }
 
     @Test
     public void emptyShouldReturnDefault() {
         DefaultWeekdayDurationParser parser = parser("");
-        Map<Integer, Duration> actual = parser.getSpecifiedMergedWithDefault();
+        Map<Integer, Period> actual = parser.getSpecifiedMergedWithDefault();
 
-        assertEquals(Duration.standardHours(8), actual.get(1));
-        assertEquals(Duration.ZERO, actual.get(7));
+        assertEquals(Period.hours(8), actual.get(1));
+        assertEquals(Period.ZERO, actual.get(7));
 
         assertFalse(actual.containsKey(0));
         assertFalse(actual.containsKey(8));
@@ -44,15 +44,15 @@ public class DefaultWeekdayDurationParserTest {
                 " saturday:  2h00m\n";
 
         DefaultWeekdayDurationParser durationParser = parser(content);
-        Map<Integer, Duration> actual = durationParser.getSpecifiedMergedWithDefault();
+        Map<Integer, Period> actual = durationParser.getSpecifiedMergedWithDefault();
 
         assertEquals(7, actual.size());
-        assertEquals(Period.hours(9).withMinutes(30).toStandardDuration(), actual.get(1));
-        assertEquals(Period.hours(8).withMinutes(0).toStandardDuration(),  actual.get(2));
-        assertEquals(Period.hours(8).withMinutes(0).toStandardDuration(),  actual.get(3));
-        assertEquals(Period.hours(0).withMinutes(0).toStandardDuration(),  actual.get(4));
-        assertEquals(Period.hours(8).withMinutes(0).toStandardDuration(),  actual.get(5));
-        assertEquals(Period.hours(2).withMinutes(0).toStandardDuration(),  actual.get(6));
-        assertEquals(Period.hours(0).withMinutes(0).toStandardDuration(),  actual.get(7));
+        assertEquals(Period.hours(9).withMinutes(30), actual.get(1));
+        assertEquals(Period.hours(8).withMinutes(0),  actual.get(2));
+        assertEquals(Period.hours(8).withMinutes(0),  actual.get(3));
+        assertEquals(Period.hours(0).withMinutes(0),  actual.get(4));
+        assertEquals(Period.hours(8).withMinutes(0),  actual.get(5));
+        assertEquals(Period.hours(2).withMinutes(0),  actual.get(6));
+        assertEquals(Period.hours(0).withMinutes(0),  actual.get(7));
     }
 }

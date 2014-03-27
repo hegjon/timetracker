@@ -1,7 +1,7 @@
 package com.jonnyware.timetracker;
 
-import org.joda.time.Duration;
 import org.joda.time.Interval;
+import org.joda.time.Period;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
@@ -22,18 +22,18 @@ public class Main {
         IntervalGroupBy groupBy = new IntervalGroupBy(entries);
 
         DefaultWeekdayDurationParser defaultDurationParser = new DefaultWeekdayDurationParser(parsed);
-        Map<Integer, Duration> hoursPerWeekday = defaultDurationParser.getSpecifiedMergedWithDefault();
+        Map<Integer, Period> hoursPerWeekday = defaultDurationParser.getSpecifiedMergedWithDefault();
 
         DiffCalculator calculator = new DiffCalculator(hoursPerWeekday);
 
-        Duration totalSummed = Duration.ZERO;
-        Duration totalDiff = Duration.ZERO;
+        Period totalSummed = Period.ZERO;
+        Period totalDiff = Period.ZERO;
         for (Map.Entry<Integer, Collection<Interval>> week : groupBy.weekOfYear().entrySet()) {
-            Duration totalPerWeek = Duration.ZERO;
-            Duration diffPerWeek = Duration.ZERO;
+            Period totalPerWeek = Period.ZERO;
+            Period diffPerWeek = Period.ZERO;
             for (Interval interval : week.getValue()) {
-                Duration duration = interval.toDuration();
-                Duration diff = calculator.calculateDiff(interval);
+                Period duration = interval.toPeriod();
+                Period diff = calculator.calculateDiff(interval);
 
                 diffPerWeek = diffPerWeek.plus(diff);
                 totalDiff = totalDiff.plus(diff);
@@ -42,13 +42,13 @@ public class Main {
                 totalSummed = totalSummed.plus(duration);
             }
 
-            String formatted = HourMinutesFormatter.print(totalPerWeek.toPeriod());
-            String diff = HourMinutesFormatter.print(diffPerWeek.toPeriod());
+            String formatted = HourMinutesFormatter.print(totalPerWeek);
+            String diff = HourMinutesFormatter.print(diffPerWeek);
             System.out.println("Week " + week.getKey() + ":\t " + formatted + "\t (" + diff + ")");
         }
         System.out.println("----------------");
-        String formatted = HourMinutesFormatter.print(totalSummed.toPeriod());
-        String diffTotal = HourMinutesFormatter.print(totalDiff.toPeriod());
+        String formatted = HourMinutesFormatter.print(totalSummed);
+        String diffTotal = HourMinutesFormatter.print(totalDiff);
         System.out.println("Total:\t " + formatted + "\t (" + diffTotal + ")");
     }
 }

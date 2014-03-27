@@ -1,20 +1,20 @@
 package com.jonnyware.timetracker;
 
-import org.joda.time.Duration;
 import org.joda.time.Interval;
+import org.joda.time.Period;
 
 import java.util.Map;
 
 public class DiffCalculator {
-    private final Map<Integer, Duration> defaultWeekdayDuration;
+    private final Map<Integer, Period> defaultWeekdayDuration;
 
-    public DiffCalculator(Map<Integer, Duration> defaultWeekdayDuration) {
+    public DiffCalculator(Map<Integer, Period> defaultWeekdayDuration) {
         this.defaultWeekdayDuration = defaultWeekdayDuration;
     }
 
-    public Duration calculateDiff(Interval interval) {
+    public Period calculateDiff(Interval interval) {
         int dayOfWeek = interval.getStart().getDayOfWeek();
-        Duration defaultDuration = defaultWeekdayDuration.get(dayOfWeek);
-        return interval.toDuration().minus(defaultDuration);
+        Period defaultDuration = defaultWeekdayDuration.get(dayOfWeek);
+        return interval.toPeriod().minus(defaultDuration);
     }
 }
