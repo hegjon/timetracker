@@ -1,4 +1,4 @@
-* Multiple intervals per day
+* Research if hamcrest can make the unit tests better, atleast where we compare Collection/List.
 * Support open interval, will use current time as end time. Example: 08.00-
 * Make a new simple tool that will only print the summed diff or the summed total hours.
 * Research what if using Period instead of Duration is more correct.

@@ -5,6 +5,9 @@ import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 import org.joda.time.format.PeriodParser;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Locale;
 
 public class DurationParser {
@@ -22,8 +25,16 @@ public class DurationParser {
         this.day = day;
     }
 
-    public Interval getDuration() {
-        String[] splitted = duration.split("-");
+    public Collection<Interval> getDuration() {
+        Collection<Interval> result = new LinkedList<Interval>();
+        for (String interval : duration.split(" ")) {
+            result.add(getInterval(interval));
+        }
+        return Collections.unmodifiableCollection(result);
+    }
+
+    private Interval getInterval(String interval) {
+        String[] splitted = interval.split("-");
         String from = splitted[0];
         String to = splitted[1];
         return new Interval(time(from), time(to));
