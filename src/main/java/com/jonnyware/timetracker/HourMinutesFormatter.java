@@ -1,6 +1,7 @@
 package com.jonnyware.timetracker;
 
 import org.joda.time.Period;
+import org.joda.time.PeriodType;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
@@ -13,7 +14,7 @@ public class HourMinutesFormatter {
             .toFormatter();
 
     public static String print(Period period) {
-        return DEFAULT.print(period);
+        return DEFAULT.print(period.normalizedStandard(PeriodType.time()));
     }
 
     public static Period parse(String period) {

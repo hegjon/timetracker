@@ -28,23 +28,30 @@ public class Main {
 
         Period totalSummed = Period.ZERO;
         Period totalDiff = Period.ZERO;
-        for (Map.Entry<Integer, Collection<Interval>> week : groupBy.weekOfYear().entrySet()) {
+        Map<Integer, Collection<Interval>> weeks = groupBy.weekOfYear();
+        for (int weekNumber = 1; weekNumber <= 53; weekNumber++) {
+            if(!weeks.containsKey(weekNumber)) {
+                continue;
+            }
+            Collection<Interval> values = weeks.get(weekNumber);
+
             Period totalPerWeek = Period.ZERO;
             Period diffPerWeek = Period.ZERO;
-            for (Interval interval : week.getValue()) {
-                Period duration = interval.toPeriod();
+            for (Interval interval : values) {
+                Period period = interval.toPeriod();
                 Period diff = calculator.calculateDiff(interval);
 
                 diffPerWeek = diffPerWeek.plus(diff);
                 totalDiff = totalDiff.plus(diff);
 
-                totalPerWeek = totalPerWeek.plus(duration);
-                totalSummed = totalSummed.plus(duration);
+                totalPerWeek = totalPerWeek.plus(period);
+                totalSummed = totalSummed.plus(period);
             }
 
             String formatted = HourMinutesFormatter.print(totalPerWeek);
             String diff = HourMinutesFormatter.print(diffPerWeek);
-            System.out.println("Week " + week.getKey() + ":\t " + formatted + "\t (" + diff + ")");
+
+            System.out.println("Week " + weekNumber + ":\t " + formatted + "\t (" + diff + ")");
         }
         System.out.println("----------------");
         String formatted = HourMinutesFormatter.print(totalSummed);
