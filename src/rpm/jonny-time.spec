@@ -3,7 +3,7 @@ Version: 1.0
 Release: 1%{?dist}
 Summary: Jonny time tracker
 
-License: Not decided
+License: ASL 2.0
 URL: http://jonnyware.com
 
 Source0: %{name}.tar.gz
