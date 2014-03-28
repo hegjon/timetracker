@@ -10,19 +10,18 @@
  - Sum the total + the diff
 
 * Produce RPM that works on Fedora 20
- v Use best practices and depend on packages provided by Fedora for the dependencies.
- - Build for Fedora devel
+ v Use best practices and depend on packages provided by the OS for dependencies.
+ v Build for Fedora devel (not tested yet)
  v Build for Fedora 20
- v Build for Fedora 19
+ v Build for Fedora 19 (not tested yet)
+ v Build for RHEL7/EPEL7 (not tested yet)
 
 * Make a generic zip package
  - Should work on Mac OSX and Windows (but not limited to those).
  - Contains all the dependencies except the JRE
 
 * Decide on a license.
- - Open Source
- - Short and easy to understand.
- - "permissive" - little restrictions
+ v ASL 2.0 (Apache 2)
 
 * Naming components
  - Fileformat
