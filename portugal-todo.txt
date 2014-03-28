@@ -9,10 +9,11 @@
  - Print out per week how many hours that is been spent on working + the diff.
  - Sum the total + the diff
 
-* Make a RPM that works on Fedora 20
- v Just get something to work.
+* Produce RPM that works on Fedora 20
  v Use best practices and depend on packages provided by Fedora for the dependencies.
- - Try to get it to work on CentOS6/RHEL6.
+ - Build for Fedora devel
+ v Build for Fedora 20
+ v Build for Fedora 19
 
 * Make a generic zip package
  - Should work on Mac OSX and Windows (but not limited to those).
