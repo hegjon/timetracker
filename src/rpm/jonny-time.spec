@@ -43,8 +43,10 @@ API documentation for %{name}.
 
 %files -f .mfiles
 /usr/bin/jtime
+%doc LICENSE.txt
 
 %files javadoc -f .mfiles-javadoc
+%doc LICENSE.txt
 
 %changelog
 * Tue Mar 25 2014 Jonny Heggheim <hegjon@gmail.com> - 1.0-1
