@@ -42,7 +42,7 @@ public class JTimeTotalDiff {
             Period total = Period.ZERO;
             for (Interval entry : entries) {
                 Period diff = calculator.calculateDiff(entry);
-                total.plus(diff);
+                total = total.plus(diff);
             }
 
             String formatted = HourMinutesFormatter.print(total);
