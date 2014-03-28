@@ -19,10 +19,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class TimeEntryParser {
     private final Map<String, Object> parsed;
@@ -103,6 +100,6 @@ public class TimeEntryParser {
             }
         }
 
-        return result;
+        return Collections.unmodifiableCollection(result);
     }
 }

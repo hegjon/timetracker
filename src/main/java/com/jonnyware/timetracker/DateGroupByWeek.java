@@ -17,6 +17,7 @@ package com.jonnyware.timetracker;
 
 import org.joda.time.LocalDate;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -37,10 +38,10 @@ public class DateGroupByWeek {
                     count = result.get(comment);
                 }
 
-                result.put(comment, ++count);
+                result.put(comment, count + 1);
             }
         }
 
-        return result;
+        return Collections.unmodifiableMap(result);
     }
 }

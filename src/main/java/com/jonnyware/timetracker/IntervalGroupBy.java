@@ -38,6 +38,6 @@ public class IntervalGroupBy {
             weeks.get(week).add(interval);
         }
 
-        return weeks;
+        return Collections.unmodifiableMap(weeks);
     }
 }
