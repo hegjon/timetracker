@@ -43,7 +43,8 @@ API documentation for %{name}.
 %jpackage_script com.jonnyware.timetracker.JTimeTotalDiff "" "" jonny-time:joda-time:apache-commons-lang3:snakeyaml:apache-commons-codec jtime-total-diff true
 
 %files -f .mfiles
-/usr/bin/jtime
+%{_bindir}/jtime
+%{_bindir}/jtime-total-diff
 %doc LICENSE.txt
 
 %files javadoc -f .mfiles-javadoc
