@@ -2,4 +2,12 @@
  - Vacation
  - Public holidays..
 
-* Make a new simple tool that will only print the summed diff or the summed total hours.
+* Have the option to set the file location global instead of passing it in for every invokation
+ - System environment variable?
+ - Default lookup?
+
+* Create a man page
+
+* Prettify the outout from the command line
+
+* Add command to start a new interval from `now`
