@@ -28,9 +28,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TimeEntryParserTest {
-    private TimeEntryParser parser(String content) {
+    private TimeEntryParser parser(String content, DateTime now) {
         Map<String, Object> parsed = (Map<String, Object>) new Yaml().load(content);
-        return new TimeEntryParser(parsed);
+        return new TimeEntryParser(parsed, now);
     }
 
     @Test
@@ -40,12 +40,27 @@ public class TimeEntryParserTest {
                 "april:\n" +
                 " 1:  08.00-16.00\n";
 
-        TimeEntryParser parser = parser(content);
+        TimeEntryParser parser = parser(content, DateTime.now());
         LocalDate day = new LocalDate(2014, 4, 1);
         DateTime from = day.toDateTime(new LocalTime(8, 0));
         DateTime to = day.toDateTime(new LocalTime(16, 0));
         Interval actual = parser.listTimeEntries().iterator().next();
         assertEquals(new Interval(from, to), actual);
+    }
+
+    @Test
+    public void openDay() {
+        String content =
+                "year: 2014\n" +
+                        "december:\n" +
+                        " 19:  09.30-\n";
+
+        DateTime now = new DateTime(2014, 12, 19, 11, 39);
+        TimeEntryParser parser = parser(content, now);
+        LocalDate day = new LocalDate(2014, 12, 19);
+        DateTime from = day.toDateTime(new LocalTime(9, 30));
+        Interval actual = parser.listTimeEntries().iterator().next();
+        assertEquals(new Interval(from, now), actual);
     }
 
     @Test
@@ -55,7 +70,7 @@ public class TimeEntryParserTest {
                 "june:\n" +
                 " 10:  =Public holiday\n";
 
-        TimeEntryParser parser = parser(content);
+        TimeEntryParser parser = parser(content, DateTime.now());
         LocalDate day = new LocalDate(2014, 6, 10);
         assertEquals(new NeutralDay("Public holiday"), parser.neutralDays().get(day));
     }
@@ -67,7 +82,7 @@ public class TimeEntryParserTest {
                 "february:\n" +
                 " 27:  +Skiing\n";
 
-        TimeEntryParser parser = parser(content);
+        TimeEntryParser parser = parser(content, DateTime.now());
         LocalDate day = new LocalDate(2014, 2, 27);
         assertEquals(new Vacation("Skiing"), parser.listVacations().get(day));
     }
@@ -76,7 +91,7 @@ public class TimeEntryParserTest {
     public void empty() {
         String content = "year: 2014";
 
-        TimeEntryParser parser = parser(content);
+        TimeEntryParser parser = parser(content, DateTime.now());
         assertEquals((Integer)2014, parser.getYear());
         assertTrue(parser.listTimeEntries().isEmpty());
     }

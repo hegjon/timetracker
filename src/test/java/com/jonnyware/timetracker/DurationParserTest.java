@@ -63,4 +63,15 @@ public class DurationParserTest {
         assertThat(actual, hasSize(2));
         assertThat(actual, hasItems(i1, i2));
     }
+
+
+    @Test
+    public void openInterval() {
+        DateTime now = new DateTime(2014, 1, 1, 13, 43);
+        DurationParser parser = new DurationParser(day, "9.31-", now);
+
+        Interval expected = new Interval(new DateTime(2014, 1, 1, 9, 31), now);
+
+        assertThat(parser.getDuration(), hasItem(expected));
+    }
 }

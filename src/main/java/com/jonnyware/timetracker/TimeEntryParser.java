@@ -15,6 +15,7 @@
  */
 package com.jonnyware.timetracker;
 
+import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 
@@ -25,9 +26,11 @@ import java.util.Map;
 
 public class TimeEntryParser {
     private final Map<String, Object> parsed;
+    private final DateTime now;
 
-    public TimeEntryParser(Map<String, Object> parsed) {
+    public TimeEntryParser(Map<String, Object> parsed, DateTime now) {
         this.parsed = parsed;
+        this.now = now;
     }
 
     public Integer getYear() {
@@ -94,7 +97,7 @@ public class TimeEntryParser {
 
                 if (Character.isDigit(value.codePointAt(0))) {
                     LocalDate date = new LocalDate(getYear(), month.getIndex(), dayOfMonth);
-                    Collection<Interval> interval = new DurationParser(date, value).getDuration();
+                    Collection<Interval> interval = new DurationParser(date, value, now).getDuration();
                     result.addAll(interval);
                 }
             }

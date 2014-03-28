@@ -18,16 +18,13 @@ package com.jonnyware.timetracker;
 import org.joda.time.*;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
-import org.joda.time.format.PeriodParser;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.Locale;
+import java.util.*;
 
 public class DurationParser {
     private final String duration;
     private final LocalDate day;
+    private final DateTime now;
 
     private static final PeriodFormatter formatter = new PeriodFormatterBuilder()
             .appendHours()
@@ -36,8 +33,13 @@ public class DurationParser {
             .toFormatter();
 
     public DurationParser(LocalDate day, String duration) {
+        this(day, duration, DateTime.now());
+    }
+
+    public DurationParser(LocalDate day, String duration, DateTime now) {
         this.duration = duration;
         this.day = day;
+        this.now = now;
     }
 
     public Collection<Interval> getDuration() {
@@ -50,9 +52,13 @@ public class DurationParser {
 
     private Interval getInterval(String interval) {
         String[] splitted = interval.split("-");
-        String from = splitted[0];
-        String to = splitted[1];
-        return new Interval(time(from), time(to));
+        DateTime start = time(splitted[0]);
+        if(splitted.length <= 1) {
+            return new Interval(start, now);
+        } else {
+            DateTime end = time(splitted[1]);
+            return new Interval(start, end);
+        }
     }
 
     private DateTime time(String value) {

@@ -15,6 +15,7 @@
  */
 package com.jonnyware.timetracker;
 
+import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.Period;
@@ -31,7 +32,7 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         File file = new File(args[0]);
         Map<String, Object> parsed = (Map<String, Object>) new Yaml().load(new FileInputStream(file));
-        TimeEntryParser parser = new TimeEntryParser(parsed);
+        TimeEntryParser parser = new TimeEntryParser(parsed, DateTime.now());
         System.out.println("Year: " + parser.getYear());
         System.out.println("----------------");
 
