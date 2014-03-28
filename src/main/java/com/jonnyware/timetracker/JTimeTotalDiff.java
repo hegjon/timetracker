@@ -22,30 +22,33 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.Map;
 
 public class JTimeTotalDiff {
-    public static void main(String[] args) throws FileNotFoundException {
-        File file = new File(args[0]);
-        Map<String, Object> parsed = (Map<String, Object>) new Yaml().load(new FileInputStream(file));
-        TimeEntryParser parser = new TimeEntryParser(parsed, DateTime.now());
+    public static void main(String[] args) {
+        try {
+            File file = new File(args[0]);
+            Map<String, Object> parsed = (Map<String, Object>) new Yaml().load(new FileInputStream(file));
+            TimeEntryParser parser = new TimeEntryParser(parsed, DateTime.now());
 
-        Collection<Interval> entries = parser.listTimeEntries();
+            Collection<Interval> entries = parser.listTimeEntries();
 
-        DefaultWeekdayDurationParser defaultDurationParser = new DefaultWeekdayDurationParser(parsed);
-        Map<Integer, Period> hoursPerWeekday = defaultDurationParser.getSpecifiedMergedWithDefault();
+            DefaultWeekdayDurationParser defaultDurationParser = new DefaultWeekdayDurationParser(parsed);
+            Map<Integer, Period> hoursPerWeekday = defaultDurationParser.getSpecifiedMergedWithDefault();
 
-        DiffCalculator calculator = new DiffCalculator(hoursPerWeekday);
+            DiffCalculator calculator = new DiffCalculator(hoursPerWeekday);
 
-        Period total = Period.ZERO;
-        for (Interval entry : entries) {
-            Period diff = calculator.calculateDiff(entry);
-            total.plus(diff);
+            Period total = Period.ZERO;
+            for (Interval entry : entries) {
+                Period diff = calculator.calculateDiff(entry);
+                total.plus(diff);
+            }
+
+            String formatted = HourMinutesFormatter.print(total);
+            System.out.print(formatted);
+        } catch (Exception e) {
+            System.err.print(e.getMessage());
         }
-
-        String formatted = HourMinutesFormatter.print(total);
-        System.out.print(formatted);
     }
 }
