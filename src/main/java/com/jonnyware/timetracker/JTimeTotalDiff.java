@@ -15,8 +15,37 @@
  */
 package com.jonnyware.timetracker;
 
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.Period;
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Collection;
+import java.util.Map;
+
 public class JTimeTotalDiff {
-    public static void main(String[] args) {
-        System.out.print("+7h+10m");
+    public static void main(String[] args) throws FileNotFoundException {
+        File file = new File(args[0]);
+        Map<String, Object> parsed = (Map<String, Object>) new Yaml().load(new FileInputStream(file));
+        TimeEntryParser parser = new TimeEntryParser(parsed, DateTime.now());
+
+        Collection<Interval> entries = parser.listTimeEntries();
+
+        DefaultWeekdayDurationParser defaultDurationParser = new DefaultWeekdayDurationParser(parsed);
+        Map<Integer, Period> hoursPerWeekday = defaultDurationParser.getSpecifiedMergedWithDefault();
+
+        DiffCalculator calculator = new DiffCalculator(hoursPerWeekday);
+
+        Period total = Period.ZERO;
+        for (Interval entry : entries) {
+            Period diff = calculator.calculateDiff(entry);
+            total.plus(diff);
+        }
+
+        String formatted = HourMinutesFormatter.print(total);
+        System.out.print(formatted);
     }
 }
