@@ -41,7 +41,6 @@ Summary: Javadoc for %{name}
 %mvn_install
 
 %jpackage_script com.jonnyware.timetracker.Main "" "" jonny-time:joda-time:apache-commons-lang3:snakeyaml:apache-commons-codec jtime true
-%jpackage_script com.jonnyware.timetracker.JTimeTotalDiff "" "" jonny-time:joda-time:apache-commons-lang3:snakeyaml:apache-commons-codec jtime-total-diff true
 
 %files -f .mfiles
 %{_bindir}/jtime

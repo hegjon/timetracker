@@ -13,25 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jonnyware.timetracker;
+package com.jonnyware.timetracker.cli;
 
-import org.joda.time.DateTime;
+import com.jonnyware.timetracker.DefaultWeekdayDurationParser;
+import com.jonnyware.timetracker.DiffCalculator;
+import com.jonnyware.timetracker.HourMinutesFormatter;
+import com.jonnyware.timetracker.TimeEntryParser;
 import org.joda.time.Interval;
 import org.joda.time.Period;
-import org.yaml.snakeyaml.Yaml;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.Collection;
 import java.util.Map;
 
-public class JTimeTotalDiff {
-    public static void main(String[] args) {
-        try {
-            File file = new File(args[0]);
-            Map<String, Object> parsed = (Map<String, Object>) new Yaml().load(new FileInputStream(file));
-            TimeEntryParser parser = new TimeEntryParser(parsed, DateTime.now());
+public class TotalDiffCommand {
 
+    public void run(Map<String, Object> parsed, TimeEntryParser parser) {
+        try {
             Collection<Interval> entries = parser.listTimeEntries();
 
             DefaultWeekdayDurationParser defaultDurationParser = new DefaultWeekdayDurationParser(parsed);

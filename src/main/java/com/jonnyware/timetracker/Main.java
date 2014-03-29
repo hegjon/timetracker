@@ -15,6 +15,9 @@
  */
 package com.jonnyware.timetracker;
 
+import com.jonnyware.timetracker.cli.PrintCommand;
+import com.jonnyware.timetracker.cli.TotalDiffCommand;
+import org.apache.commons.cli.*;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
@@ -29,62 +32,43 @@ import java.util.Collections;
 import java.util.Map;
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
-        File file = new File(args[0]);
+    public static void main(String[] args) throws FileNotFoundException, ParseException {
+        String fileName = System.getenv("JTIME_DEFAULT_FILE");
+        Option f = OptionBuilder.withArgName("file").withType(String.class).withLongOpt("file").hasArgs(1).create('f');
+        Options options = new Options().addOption(f);
+
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp( "jtime", options );
+
+        CommandLineParser p = new PosixParser();
+        CommandLine cmd = p.parse(options, args);
+
+        String command = "print";
+
+        if(!cmd.getArgList().isEmpty()) {
+            command = (String) cmd.getArgList().get(0);
+        }
+
+        if(cmd.hasOption("f")) {
+            fileName = cmd.getOptionValue("f");
+        }
+        if(fileName == null) {
+            System.err.println("File is not specified!");
+        }
+        System.out.println("Command: " + command);
+        System.out.println("Filename: " + fileName);
+
+        File file = new File(fileName);
+
         Map<String, Object> parsed = (Map<String, Object>) new Yaml().load(new FileInputStream(file));
         TimeEntryParser parser = new TimeEntryParser(parsed, DateTime.now());
-        System.out.println("Year: " + parser.getYear());
-        System.out.println("----------------");
 
-        Collection<Interval> entries = parser.listTimeEntries();
-        Map<LocalDate, Vacation> vacations = parser.listVacations();
-        DateGroupByWeek vacationByWeek = new DateGroupByWeek(vacations);
-
-        IntervalGroupBy groupBy = new IntervalGroupBy(entries);
-        Map<Integer, Collection<Interval>> weeks = groupBy.weekOfYear();
-
-        DefaultWeekdayDurationParser defaultDurationParser = new DefaultWeekdayDurationParser(parsed);
-        Map<Integer, Period> hoursPerWeekday = defaultDurationParser.getSpecifiedMergedWithDefault();
-
-        DiffCalculator calculator = new DiffCalculator(hoursPerWeekday);
-
-        Period totalSummed = Period.ZERO;
-        Period totalDiff = Period.ZERO;
-        for (int weekNumber = 1; weekNumber <= 53; weekNumber++) {
-            Map<String, Integer> vacationForThisWeek = vacationByWeek.getComments(weekNumber);
-            if (!weeks.containsKey(weekNumber) && vacationForThisWeek.isEmpty()) {
-                continue;
-            }
-            Collection<Interval> values = Collections.EMPTY_LIST;
-            if (weeks.containsKey(weekNumber)) {
-                values = weeks.get(weekNumber);
-            }
-
-            Period totalPerWeek = Period.ZERO;
-            Period diffPerWeek = Period.ZERO;
-            for (Interval interval : values) {
-                Period period = interval.toPeriod();
-                Period diff = calculator.calculateDiff(interval);
-
-                diffPerWeek = diffPerWeek.plus(diff);
-                totalDiff = totalDiff.plus(diff);
-
-                totalPerWeek = totalPerWeek.plus(period);
-                totalSummed = totalSummed.plus(period);
-            }
-
-            String formatted = HourMinutesFormatter.print(totalPerWeek);
-            String diff = HourMinutesFormatter.print(diffPerWeek);
-
-            System.out.print("Week " + weekNumber + ":\t " + formatted + "\t (" + diff + ")");
-            if (!vacationForThisWeek.isEmpty()) {
-                System.out.print("\t " + vacationForThisWeek.toString());
-            }
-            System.out.println();
+        if(command.equals("print")) {
+            new PrintCommand().run(parsed, parser);
+        } else if(command.equals("total-diff")) {
+            new TotalDiffCommand().run(parsed, parser);
+        } else {
+            System.err.println("Unknown command: '" + command + "'");
         }
-        System.out.println("----------------");
-        String formatted = HourMinutesFormatter.print(totalSummed);
-        String diffTotal = HourMinutesFormatter.print(totalDiff);
-        System.out.println("Total:\t " + formatted + "\t (" + diffTotal + ")");
     }
 }
