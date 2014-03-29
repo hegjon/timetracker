@@ -19,16 +19,11 @@ import com.jonnyware.timetracker.cli.PrintCommand;
 import com.jonnyware.timetracker.cli.TotalDiffCommand;
 import org.apache.commons.cli.*;
 import org.joda.time.DateTime;
-import org.joda.time.Interval;
-import org.joda.time.LocalDate;
-import org.joda.time.Period;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 
 public class Main {

@@ -40,11 +40,10 @@ Summary: Javadoc for %{name}
 %install
 %mvn_install
 
-%jpackage_script com.jonnyware.timetracker.Main "" "" jonny-time:joda-time:apache-commons-lang3:snakeyaml:apache-commons-codec jtime true
+%jpackage_script com.jonnyware.timetracker.Main "" "" jonny-time:joda-time:apache-commons-lang3:snakeyaml:apache-commons-cli:apache-commons-codec jtime true
 
 %files -f .mfiles
 %{_bindir}/jtime
-%{_bindir}/jtime-total-diff
 %doc LICENSE.txt
 
 %files javadoc -f .mfiles-javadoc
