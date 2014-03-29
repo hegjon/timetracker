@@ -13,9 +13,10 @@ BuildRequires: java-devel >= 1:1.5.0
 BuildRequires: maven-local
 Requires:      java-headless >= 1:1.5.0
 
+BuildRequires: snakeyaml
 BuildRequires: joda-time
 BuildRequires: apache-commons-lang3
-BuildRequires: snakeyaml
+BuildRequires: apache-commons-cli
 BuildRequires: junit >= 4
 BuildRequires: hamcrest
 Requires:      apache-commons-codec
@@ -27,7 +28,7 @@ Hmm..
 Summary: Javadoc for %{name}
 
 %description javadoc
-API documentation for %{name}.
+%{summary}.
 
 %prep
 
