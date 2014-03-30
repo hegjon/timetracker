@@ -26,8 +26,9 @@ import java.util.Map;
 
 public class PrintCommand {
     public void run(Map<String, Object> parsed, TimeEntryParser parser) {
-        System.out.println("Year: " + parser.getYear());
-        System.out.println("----------------");
+        System.out.printf("Year: %d%n%n", parser.getYear());
+        System.out.println("Week |  Total  |   Diff   ");
+        System.out.println("--------------------------");
 
         Collection<Interval> entries = parser.listTimeEntries();
         Map<LocalDate, Vacation> vacations = parser.listVacations();
@@ -69,15 +70,16 @@ public class PrintCommand {
             String formatted = HourMinutesFormatter.print(totalPerWeek);
             String diff = HourMinutesFormatter.print(diffPerWeek);
 
-            System.out.print("Week " + weekNumber + ":\t " + formatted + "\t (" + diff + ")");
+            System.out.printf("  %2d | %7s | %9s", weekNumber, formatted, diff);
             if (!vacationForThisWeek.isEmpty()) {
-                System.out.print("\t " + vacationForThisWeek.toString());
+                System.out.printf("  %s", vacationForThisWeek);
             }
             System.out.println();
         }
-        System.out.println("----------------");
+        System.out.println("--------------------------");
         String formatted = HourMinutesFormatter.print(totalSummed);
         String diffTotal = HourMinutesFormatter.print(totalDiff);
-        System.out.println("Total:\t " + formatted + "\t (" + diffTotal + ")");
+        System.out.printf(" Sum | %7s | %9s%n", formatted, diffTotal);
+        System.out.println("==========================");
     }
 }

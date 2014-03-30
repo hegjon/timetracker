@@ -8,6 +8,4 @@
 
 * Create a man page
 
-* Prettify the outout from the command line
-
 * Add command to start a new interval from `now`
