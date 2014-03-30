@@ -64,7 +64,6 @@ public class DurationParserTest {
         assertThat(actual, hasItems(i1, i2));
     }
 
-
     @Test
     public void openInterval() {
         DateTime now = new DateTime(2014, 1, 1, 13, 43);
@@ -72,6 +71,22 @@ public class DurationParserTest {
 
         Interval expected = new Interval(new DateTime(2014, 1, 1, 9, 31), now);
 
-        assertThat(parser.getDuration(), hasItem(expected));
+
+        Collection<Interval> actual = parser.getDuration();
+        assertThat(actual, hasSize(1));
+        assertThat(actual, hasItem(expected));
+    }
+
+    @Test
+    public void openClosedAndOneOpenInterval() {
+        DateTime now = new DateTime(2014, 1, 1, 21, 43);
+        DurationParser parser = new DurationParser(day, "9-16.30 20-", now);
+
+        Interval closed = new Interval(new DateTime(2014, 1, 1, 9, 0), new DateTime(2014, 1, 1, 16, 30));
+        Interval open = new Interval(new DateTime(2014, 1, 1, 9, 0), new DateTime(2014, 1, 1, 16, 30));
+
+        Collection<Interval> actual = parser.getDuration();
+        assertThat(actual, hasSize(2));
+        assertThat(actual, hasItems(closed, open));
     }
 }
