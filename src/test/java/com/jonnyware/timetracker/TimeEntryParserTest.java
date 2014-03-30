@@ -72,7 +72,7 @@ public class TimeEntryParserTest {
 
         TimeEntryParser parser = parser(content, DateTime.now());
         LocalDate day = new LocalDate(2014, 6, 10);
-        assertEquals(new NeutralDay(day, "Public holiday"), parser.neutralDays().get(day));
+        assertEquals(new NeutralDay(day, "Public holiday"), parser.neutralDays().iterator().next());
     }
 
     @Test

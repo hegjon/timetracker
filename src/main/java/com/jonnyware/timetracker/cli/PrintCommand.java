@@ -41,7 +41,7 @@ public class PrintCommand {
         DefaultWeekdayDurationParser defaultDurationParser = new DefaultWeekdayDurationParser(parsed);
         Map<Integer, Period> hoursPerWeekday = defaultDurationParser.getSpecifiedMergedWithDefault();
 
-        Collection<NeutralDay> holidays = parser.neutralDays().values();
+        Collection<NeutralDay> holidays = parser.neutralDays();
         DiffCalculator calculator = new DiffCalculator(hoursPerWeekday, holidays);
 
         Period totalSummed = Period.ZERO;

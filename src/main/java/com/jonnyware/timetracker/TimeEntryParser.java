@@ -34,8 +34,8 @@ public class TimeEntryParser {
         return ((Integer) parsed.get("year"));
     }
 
-    public Map<LocalDate, NeutralDay> neutralDays() {
-        Map<LocalDate, NeutralDay> result = new HashMap<LocalDate, NeutralDay>();
+    public Collection<NeutralDay> neutralDays() {
+        Collection<NeutralDay> result = new LinkedList<NeutralDay>();
 
         for (Month month : Month.values()) {
             if (!parsed.containsKey(month.getPretty())) {
@@ -48,7 +48,7 @@ public class TimeEntryParser {
 
                 if (entry.getValue().startsWith("=")) {
                     LocalDate date = new LocalDate(getYear(), month.getIndex(), dayOfMonth);
-                    result.put(date, new NeutralDay(date, entry.getValue().substring(1)));
+                    result.add(new NeutralDay(date, entry.getValue().substring(1)));
                 }
             }
         }
