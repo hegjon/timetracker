@@ -1,4 +1,6 @@
-* Working on holidays should case positive diff no matter default hours.
+* Try to reduce the JVM startup
+ - Flags
+ - Nailgun
 
 * Include more information in the command line tool
  - Vacation
