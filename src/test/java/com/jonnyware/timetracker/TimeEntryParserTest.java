@@ -84,7 +84,7 @@ public class TimeEntryParserTest {
 
         TimeEntryParser parser = parser(content, DateTime.now());
         LocalDate day = new LocalDate(2014, 2, 27);
-        assertEquals(new Vacation("Skiing"), parser.listVacations().get(day));
+        assertEquals(new Vacation(day, "Skiing"), parser.listVacations().iterator().next());
     }
 
     @Test

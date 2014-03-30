@@ -32,7 +32,7 @@ public class PrintCommand {
         System.out.println("+------+---------+-----------+");
 
         Collection<Interval> entries = parser.listTimeEntries();
-        Map<LocalDate, Vacation> vacations = parser.listVacations();
+        Collection<Vacation> vacations = parser.listVacations();
         DateGroupByWeek vacationByWeek = new DateGroupByWeek(vacations);
 
         IntervalGroupBy groupBy = new IntervalGroupBy(entries);

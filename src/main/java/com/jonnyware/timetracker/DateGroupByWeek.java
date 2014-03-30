@@ -15,24 +15,23 @@
  */
 package com.jonnyware.timetracker;
 
-import org.joda.time.LocalDate;
-
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class DateGroupByWeek {
-    private final Map<LocalDate, Vacation> vacations;
+    private final Collection<Vacation> vacations;
 
-    public DateGroupByWeek(Map<LocalDate, Vacation> vacation) {
+    public DateGroupByWeek(Collection<Vacation> vacation) {
         this.vacations = vacation;
     }
 
     public Map<String, Integer> getComments(int weekNumber) {
         Map<String, Integer> result = new TreeMap<String, Integer>();
-        for (Map.Entry<LocalDate, Vacation> entry : vacations.entrySet()) {
-            if(entry.getKey().getWeekOfWeekyear() == weekNumber) {
-                String comment = entry.getValue().getComment();
+        for (Vacation entry : vacations) {
+            if(entry.getDay().getWeekOfWeekyear() == weekNumber) {
+                String comment = entry.getComment();
                 int count = 0;
                 if(result.containsKey(comment)) {
                     count = result.get(comment);

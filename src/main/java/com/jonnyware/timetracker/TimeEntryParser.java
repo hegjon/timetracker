@@ -56,8 +56,8 @@ public class TimeEntryParser {
         return result;
     }
 
-    public Map<LocalDate, Vacation> listVacations() {
-        Map<LocalDate, Vacation> result = new HashMap<LocalDate, Vacation>();
+    public Collection<Vacation> listVacations() {
+        Collection<Vacation> result = new LinkedList<Vacation>();
 
         for (Month month : Month.values()) {
             if (!parsed.containsKey(month.getPretty())) {
@@ -71,7 +71,7 @@ public class TimeEntryParser {
 
                 if (value.startsWith("+")) {
                     LocalDate date = new LocalDate(getYear(), month.getIndex(), dayOfMonth);
-                    result.put(date, new Vacation(value.substring(1)));
+                    result.add(new Vacation(date, value.substring(1)));
                 }
             }
         }

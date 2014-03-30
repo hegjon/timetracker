@@ -19,13 +19,22 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.joda.time.LocalDate;
 
 public class Vacation {
+    private final LocalDate day;
     private final String comment;
 
-    public Vacation(String comment) {
+    public Vacation(LocalDate day, String comment) {
+        Validate.notNull(day);
         Validate.notNull(comment);
+
+        this.day = day;
         this.comment = comment;
+    }
+
+    public LocalDate getDay() {
+        return day;
     }
 
     public String getComment() {
