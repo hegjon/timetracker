@@ -17,6 +17,7 @@ package com.jonnyware.timetracker;
 
 import com.jonnyware.timetracker.cli.PrintCommand;
 import com.jonnyware.timetracker.cli.TotalDiffCommand;
+import com.jonnyware.timetracker.cli.VacationsCommand;
 import org.apache.commons.cli.*;
 import org.joda.time.DateTime;
 import org.yaml.snakeyaml.Yaml;
@@ -70,6 +71,8 @@ public class Main {
             new PrintCommand().run(parsed, parser);
         } else if (command.equals("total-diff")) {
             new TotalDiffCommand().run(parsed, parser);
+        } else if (command.equals("vacations")) {
+            new VacationsCommand().run(parsed, parser);
         } else {
             System.err.println("Unknown command: '" + command + "'");
         }
