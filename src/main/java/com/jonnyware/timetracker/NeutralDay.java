@@ -19,16 +19,25 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.joda.time.LocalDate;
 
-public class NeutralDay {
+public final class NeutralDay {
     private final String comment;
+    private final LocalDate day;
 
-    public NeutralDay(String comment) {
+    public NeutralDay(LocalDate day, String comment) {
+        Validate.notNull(day);
         Validate.notNull(comment);
+
+        this.day = day;
         this.comment = comment;
     }
 
-    public final String getComment() {
+    public LocalDate getDay() {
+        return day;
+    }
+
+    public String getComment() {
         return comment;
     }
 
@@ -44,16 +53,16 @@ public class NeutralDay {
             return false;
         }
         NeutralDay rhs = (NeutralDay) obj;
-        return new EqualsBuilder().append(comment, rhs.comment).isEquals();
+        return new EqualsBuilder().append(day, rhs.day).append(comment, rhs.comment).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(11, 13).append(comment).toHashCode();
+        return new HashCodeBuilder(11, 13).append(day).append(comment).toHashCode();
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("comment", comment).toString();
+        return new ToStringBuilder(this).append("day", day).append("comment", comment).toString();
     }
 }

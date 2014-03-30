@@ -19,6 +19,9 @@ import org.joda.time.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import static org.junit.Assert.assertEquals;
 
 public class DiffCalculatorTest {
@@ -26,12 +29,13 @@ public class DiffCalculatorTest {
 
     @Before
     public void createCalculator() {
-        calculator = new DiffCalculator(DefaultWeekdayDurationParser.defaultDuration());
+        NeutralDay holiday = new NeutralDay(new LocalDate(2014, 1, 1), "Public holiday");
+        calculator = new DiffCalculator(DefaultWeekdayDurationParser.defaultDuration(), Collections.singletonList(holiday));
     }
 
     @Test
-    public void tenMinutesWorkingOnWednesday() {
-        Interval i = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 8, 10));
+    public void tenMinutesWorkingOnThursday() {
+        Interval i = new Interval(new DateTime(2014, 1, 2, 8, 0), new DateTime(2014, 1, 2, 8, 10));
         Period actual = calculator.calculateDiff(i);
         Period expected = Period.hours(-8).withMinutes(10);
 
@@ -57,6 +61,14 @@ public class DiffCalculatorTest {
     @Test
     public void twoHoursWorkingOnSaturday() {
         Interval i = new Interval(new DateTime(2014, 1, 4, 8, 0), new DateTime(2014, 1, 4, 10, 0));
+        Period actual = calculator.calculateDiff(i);
+
+        assertEquals(Period.hours(2), actual);
+    }
+
+    @Test
+    public void twoHoursWorkingOnPublicHoliday() {
+        Interval i = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 10, 0));
         Period actual = calculator.calculateDiff(i);
 
         assertEquals(Period.hours(2), actual);

@@ -48,7 +48,7 @@ public class TimeEntryParser {
 
                 if (entry.getValue().startsWith("=")) {
                     LocalDate date = new LocalDate(getYear(), month.getIndex(), dayOfMonth);
-                    result.put(date, new NeutralDay(entry.getValue().substring(1)));
+                    result.put(date, new NeutralDay(date, entry.getValue().substring(1)));
                 }
             }
         }

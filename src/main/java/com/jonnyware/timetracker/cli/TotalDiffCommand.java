@@ -15,10 +15,7 @@
  */
 package com.jonnyware.timetracker.cli;
 
-import com.jonnyware.timetracker.DefaultWeekdayDurationParser;
-import com.jonnyware.timetracker.DiffCalculator;
-import com.jonnyware.timetracker.HourMinutesFormatter;
-import com.jonnyware.timetracker.TimeEntryParser;
+import com.jonnyware.timetracker.*;
 import org.joda.time.Interval;
 import org.joda.time.Period;
 
@@ -34,7 +31,8 @@ public class TotalDiffCommand {
             DefaultWeekdayDurationParser defaultDurationParser = new DefaultWeekdayDurationParser(parsed);
             Map<Integer, Period> hoursPerWeekday = defaultDurationParser.getSpecifiedMergedWithDefault();
 
-            DiffCalculator calculator = new DiffCalculator(hoursPerWeekday);
+            Collection<NeutralDay> holidays = parser.neutralDays().values();
+            DiffCalculator calculator = new DiffCalculator(hoursPerWeekday, holidays);
 
             Period total = Period.ZERO;
             for (Interval entry : entries) {
