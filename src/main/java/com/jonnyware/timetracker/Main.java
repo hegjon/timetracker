@@ -58,7 +58,6 @@ public class Main {
         if (fileName == null) {
             System.err.println("File is not specified!");
         }
-        System.out.println("Command: " + command);
         System.out.println("Filename: " + fileName);
 
         File file = new File(fileName);
