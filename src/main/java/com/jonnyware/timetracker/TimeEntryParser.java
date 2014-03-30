@@ -94,7 +94,7 @@ public class TimeEntryParser {
 
                 if (Character.isDigit(value.codePointAt(0))) {
                     LocalDate date = new LocalDate(getYear(), month.getIndex(), dayOfMonth);
-                    Collection<Interval> interval = new IntervalParser(date, value, now).getDuration();
+                    Collection<Interval> interval = new IntervalParser(date, value, now).getIntervals();
                     result.addAll(interval);
                 }
             }

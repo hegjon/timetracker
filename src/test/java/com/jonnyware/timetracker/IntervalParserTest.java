@@ -33,7 +33,7 @@ public class IntervalParserTest {
         IntervalParser parser = new IntervalParser(day, "08.00-16.00");
         Interval expected = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 16, 0));
 
-        assertThat(parser.getDuration(), hasItem(expected));
+        assertThat(parser.getIntervals(), hasItem(expected));
     }
 
     @Test
@@ -41,7 +41,7 @@ public class IntervalParserTest {
         IntervalParser parser = new IntervalParser(day, "08.10-16.50");
         Interval expected = new Interval(new DateTime(2014, 1, 1, 8, 10), new DateTime(2014, 1, 1, 16, 50));
 
-        assertThat(parser.getDuration(), hasItem(expected));
+        assertThat(parser.getIntervals(), hasItem(expected));
     }
 
     @Test
@@ -49,7 +49,7 @@ public class IntervalParserTest {
         IntervalParser parser = new IntervalParser(day, "08-16");
         Interval expected = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 16, 0));
 
-        assertThat(parser.getDuration(), hasItem(expected));
+        assertThat(parser.getIntervals(), hasItem(expected));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class IntervalParserTest {
 
         Interval i1 = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 16, 0));
         Interval i2 = new Interval(new DateTime(2014, 1, 1, 18, 0), new DateTime(2014, 1, 1, 20, 10));
-        Collection<Interval> actual = parser.getDuration();
+        Collection<Interval> actual = parser.getIntervals();
 
         assertThat(actual, hasSize(2));
         assertThat(actual, hasItems(i1, i2));
@@ -72,7 +72,7 @@ public class IntervalParserTest {
         Interval expected = new Interval(new DateTime(2014, 1, 1, 9, 31), now);
 
 
-        Collection<Interval> actual = parser.getDuration();
+        Collection<Interval> actual = parser.getIntervals();
         assertThat(actual, hasSize(1));
         assertThat(actual, hasItem(expected));
     }
@@ -85,7 +85,7 @@ public class IntervalParserTest {
         Interval closed = new Interval(new DateTime(2014, 1, 1, 9, 0), new DateTime(2014, 1, 1, 16, 30));
         Interval open = new Interval(new DateTime(2014, 1, 1, 9, 0), new DateTime(2014, 1, 1, 16, 30));
 
-        Collection<Interval> actual = parser.getDuration();
+        Collection<Interval> actual = parser.getIntervals();
         assertThat(actual, hasSize(2));
         assertThat(actual, hasItems(closed, open));
     }

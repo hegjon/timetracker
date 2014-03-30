@@ -42,7 +42,7 @@ public class IntervalParser {
         this.now = now;
     }
 
-    public Collection<Interval> getDuration() {
+    public Collection<Interval> getIntervals() {
         Collection<Interval> result = new LinkedList<Interval>();
         for (String interval : duration.split(" ")) {
             result.add(getInterval(interval));
