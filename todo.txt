@@ -4,10 +4,6 @@
  - Vacation
  - Public holidays..
 
-* Have the option to set the file location global instead of passing it in for every invokation
- - System environment variable?
- - Default lookup?
-
 * Create a man page
 
 * Add command to start a new interval from `now`
