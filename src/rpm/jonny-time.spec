@@ -21,6 +21,8 @@ BuildRequires: junit >= 4
 BuildRequires: hamcrest
 Requires:      apache-commons-codec
 
+BuildRequires: python-docutils
+
 %description
 Hmm..
 
@@ -36,15 +38,19 @@ Summary: Javadoc for %{name}
 
 %build
 %mvn_build
+rst2man < src/doc/jtime.rst | gzip > target/jtime.1.gz
 
 %install
 %mvn_install
+install -d %{buildroot}%{_mandir}/man1
+install target/jtime.1.gz %{buildroot}%{_mandir}/man1/jtime.1.gz
 
 %jpackage_script com.jonnyware.timetracker.Main "-Xint" "" jonny-time:joda-time:apache-commons-lang3:snakeyaml:apache-commons-cli:apache-commons-codec jtime true
 
 %files -f .mfiles
 %{_bindir}/jtime
 %doc LICENSE.txt
+%doc %{_mandir}/man1/jtime.1.gz
 
 %files javadoc -f .mfiles-javadoc
 %doc LICENSE.txt
