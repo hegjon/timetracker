@@ -1,3 +1,5 @@
+* Working on holidays should case positive diff no matter default hours.
+
 * Include more information in the command line tool
  - Vacation
  - Public holidays..
