@@ -20,7 +20,7 @@ import org.joda.time.PeriodType;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
-public class HourMinutesFormatter {
+public class Formatter {
     private static PeriodFormatter DEFAULT = new PeriodFormatterBuilder()
             .appendHours()
             .appendSuffix("h")

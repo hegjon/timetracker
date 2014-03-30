@@ -40,7 +40,7 @@ public class TotalDiffCommand {
                 total = total.plus(diff);
             }
 
-            String formatted = HourMinutesFormatter.print(total);
+            String formatted = Formatter.print(total);
             System.out.print(formatted);
         } catch (Exception e) {
             System.err.print(e.getMessage());

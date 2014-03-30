@@ -17,7 +17,6 @@ package com.jonnyware.timetracker.cli;
 
 import com.jonnyware.timetracker.*;
 import org.joda.time.Interval;
-import org.joda.time.LocalDate;
 import org.joda.time.Period;
 
 import java.util.Collection;
@@ -69,8 +68,8 @@ public class PrintCommand {
                 totalSummed = totalSummed.plus(period);
             }
 
-            String formatted = HourMinutesFormatter.print(totalPerWeek);
-            String diff = HourMinutesFormatter.print(diffPerWeek);
+            String formatted = Formatter.print(totalPerWeek);
+            String diff = Formatter.print(diffPerWeek);
 
             System.out.printf("|   %2d | %7s | %9s |", weekNumber, formatted, diff);
             if (!vacationForThisWeek.isEmpty()) {
@@ -79,8 +78,8 @@ public class PrintCommand {
             System.out.println();
         }
         System.out.println("+------+---------+-----------+");
-        String formatted = HourMinutesFormatter.print(totalSummed);
-        String diffTotal = HourMinutesFormatter.print(totalDiff);
+        String formatted = Formatter.print(totalSummed);
+        String diffTotal = Formatter.print(totalDiff);
         System.out.printf("|  Sum | %7s | %9s |%n", formatted, diffTotal);
         System.out.println("+------+---------+-----------+");
     }
