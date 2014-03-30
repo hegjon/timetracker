@@ -45,14 +45,14 @@ public class PrintCommand {
 
         Period totalSummed = Period.ZERO;
         Period totalDiff = Period.ZERO;
-        for (int weekNumber = 1; weekNumber <= 53; weekNumber++) {
-            Map<String, Integer> vacationForThisWeek = vacationByWeek.getComments(weekNumber);
-            if (!weeks.containsKey(weekNumber) && vacationForThisWeek.isEmpty()) {
+        for (int week = 1; week <= 53; week++) {
+            Map<String, Integer> vacationForThisWeek = vacationByWeek.getComments(week);
+            if (!weeks.containsKey(week) && vacationForThisWeek.isEmpty()) {
                 continue;
             }
             Collection<Interval> values = Collections.EMPTY_LIST;
-            if (weeks.containsKey(weekNumber)) {
-                values = weeks.get(weekNumber);
+            if (weeks.containsKey(week)) {
+                values = weeks.get(week);
             }
 
             Period totalPerWeek = Period.ZERO;
@@ -68,19 +68,14 @@ public class PrintCommand {
                 totalSummed = totalSummed.plus(period);
             }
 
-            String formatted = Formatter.print(totalPerWeek);
-            String diff = Formatter.print(diffPerWeek);
-
-            System.out.printf("|   %2d | %7s | %9s |", weekNumber, formatted, diff);
+            System.out.printf("|   %2d | %7s | %9s |", week, Formatter.print(totalPerWeek), Formatter.print(diffPerWeek));
             if (!vacationForThisWeek.isEmpty()) {
                 System.out.printf("  %s", vacationForThisWeek);
             }
             System.out.println();
         }
         System.out.println("+------+---------+-----------+");
-        String formatted = Formatter.print(totalSummed);
-        String diffTotal = Formatter.print(totalDiff);
-        System.out.printf("|  Sum | %7s | %9s |%n", formatted, diffTotal);
+        System.out.printf("|  Sum | %7s | %9s |%n", Formatter.print(totalSummed), Formatter.print(totalDiff));
         System.out.println("+------+---------+-----------+");
     }
 }
