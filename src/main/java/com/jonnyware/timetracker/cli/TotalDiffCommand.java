@@ -31,8 +31,8 @@ public class TotalDiffCommand {
             DefaultWeekdayDurationParser defaultDurationParser = new DefaultWeekdayDurationParser(parsed);
             Map<Integer, Period> hoursPerWeekday = defaultDurationParser.getSpecifiedMergedWithDefault();
 
-            Collection<NeutralDay> holidays = parser.neutralDays();
-            DiffCalculator calculator = new DiffCalculator(hoursPerWeekday, holidays);
+            IgnoredDays ignoredDays = new IgnoredDays(parser.listVacations(), parser.neutralDays());
+            DiffCalculator calculator = new DiffCalculator(hoursPerWeekday, ignoredDays.union());
 
             Period total = Period.ZERO;
             for (Interval entry : entries) {

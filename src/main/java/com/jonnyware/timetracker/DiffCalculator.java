@@ -16,22 +16,23 @@
 package com.jonnyware.timetracker;
 
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.joda.time.Period;
 
-import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 public class DiffCalculator {
     private final Map<Integer, Period> defaultWeekdayDuration;
-    private final Collection<NeutralDay> holidays;
+    private final Set<LocalDate> ignoredDays;
 
-    public DiffCalculator(Map<Integer, Period> defaultWeekdayDuration, Collection<NeutralDay> holidays) {
+    public DiffCalculator(Map<Integer, Period> defaultWeekdayDuration, Set<LocalDate> ignoredDays) {
         this.defaultWeekdayDuration = defaultWeekdayDuration;
-        this.holidays = holidays;
+        this.ignoredDays = ignoredDays;
     }
 
     public Period calculateDiff(Interval interval) {
-        if (isIntervalOnHoliday(interval)) {
+        if (isIntervalOnIgnoredDay(interval)) {
             return interval.toPeriod();
         }
         int dayOfWeek = interval.getStart().getDayOfWeek();
@@ -39,12 +40,11 @@ public class DiffCalculator {
         return interval.toPeriod().minus(defaultDuration);
     }
 
-    private boolean isIntervalOnHoliday(Interval interval) {
-        for (NeutralDay holiday : holidays) {
-            if (interval.getStart().toLocalDate().equals(holiday.getDay())) {
+    private boolean isIntervalOnIgnoredDay(Interval interval) {
+        for (LocalDate holiday : ignoredDays) {
+            if (interval.getStart().toLocalDate().equals(holiday)) {
                 return true;
             }
-
         }
         return false;
     }

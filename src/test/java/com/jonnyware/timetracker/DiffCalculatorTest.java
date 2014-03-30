@@ -29,8 +29,8 @@ public class DiffCalculatorTest {
 
     @Before
     public void createCalculator() {
-        NeutralDay holiday = new NeutralDay(new LocalDate(2014, 1, 1), "Public holiday");
-        calculator = new DiffCalculator(DefaultWeekdayDurationParser.defaultDuration(), Collections.singletonList(holiday));
+        LocalDate holiday = new LocalDate(2014, 1, 1);
+        calculator = new DiffCalculator(DefaultWeekdayDurationParser.defaultDuration(), Collections.singleton(holiday));
     }
 
     @Test
