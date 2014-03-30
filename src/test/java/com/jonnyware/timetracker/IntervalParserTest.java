@@ -25,12 +25,12 @@ import java.util.Collection;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-public class DurationParserTest {
+public class IntervalParserTest {
     private final LocalDate day = new LocalDate(2014, 1, 1);
 
     @Test
     public void hoursAndZeroAppendedMinutes() {
-        DurationParser parser = new DurationParser(day, "08.00-16.00");
+        IntervalParser parser = new IntervalParser(day, "08.00-16.00");
         Interval expected = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 16, 0));
 
         assertThat(parser.getDuration(), hasItem(expected));
@@ -38,7 +38,7 @@ public class DurationParserTest {
 
     @Test
     public void hoursAndMinutes() {
-        DurationParser parser = new DurationParser(day, "08.10-16.50");
+        IntervalParser parser = new IntervalParser(day, "08.10-16.50");
         Interval expected = new Interval(new DateTime(2014, 1, 1, 8, 10), new DateTime(2014, 1, 1, 16, 50));
 
         assertThat(parser.getDuration(), hasItem(expected));
@@ -46,7 +46,7 @@ public class DurationParserTest {
 
     @Test
     public void hoursNoMinutes() {
-        DurationParser parser = new DurationParser(day, "08-16");
+        IntervalParser parser = new IntervalParser(day, "08-16");
         Interval expected = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 16, 0));
 
         assertThat(parser.getDuration(), hasItem(expected));
@@ -54,7 +54,7 @@ public class DurationParserTest {
 
     @Test
     public void multipleEntries() {
-        DurationParser parser = new DurationParser(day, "08.00-16 18-20.10");
+        IntervalParser parser = new IntervalParser(day, "08.00-16 18-20.10");
 
         Interval i1 = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 16, 0));
         Interval i2 = new Interval(new DateTime(2014, 1, 1, 18, 0), new DateTime(2014, 1, 1, 20, 10));
@@ -67,7 +67,7 @@ public class DurationParserTest {
     @Test
     public void openInterval() {
         DateTime now = new DateTime(2014, 1, 1, 13, 43);
-        DurationParser parser = new DurationParser(day, "9.31-", now);
+        IntervalParser parser = new IntervalParser(day, "9.31-", now);
 
         Interval expected = new Interval(new DateTime(2014, 1, 1, 9, 31), now);
 
@@ -80,7 +80,7 @@ public class DurationParserTest {
     @Test
     public void openClosedAndOneOpenInterval() {
         DateTime now = new DateTime(2014, 1, 1, 21, 43);
-        DurationParser parser = new DurationParser(day, "9-16.30 20-", now);
+        IntervalParser parser = new IntervalParser(day, "9-16.30 20-", now);
 
         Interval closed = new Interval(new DateTime(2014, 1, 1, 9, 0), new DateTime(2014, 1, 1, 16, 30));
         Interval open = new Interval(new DateTime(2014, 1, 1, 9, 0), new DateTime(2014, 1, 1, 16, 30));

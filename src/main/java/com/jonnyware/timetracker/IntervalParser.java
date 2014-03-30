@@ -21,7 +21,7 @@ import org.joda.time.format.PeriodFormatterBuilder;
 
 import java.util.*;
 
-public class DurationParser {
+public class IntervalParser {
     private final String duration;
     private final LocalDate day;
     private final DateTime now;
@@ -32,11 +32,11 @@ public class DurationParser {
             .appendMinutes()
             .toFormatter();
 
-    public DurationParser(LocalDate day, String duration) {
+    public IntervalParser(LocalDate day, String duration) {
         this(day, duration, DateTime.now());
     }
 
-    public DurationParser(LocalDate day, String duration, DateTime now) {
+    public IntervalParser(LocalDate day, String duration, DateTime now) {
         this.duration = duration;
         this.day = day;
         this.now = now;
