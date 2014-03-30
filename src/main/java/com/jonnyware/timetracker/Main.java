@@ -60,8 +60,6 @@ public class Main {
             System.err.println("File is not specified!");
             return;
         }
-        System.out.println("Filename: " + fileName);
-
         File file = new File(fileName);
 
         Map<String, Object> parsed = (Map<String, Object>) new Yaml().load(new FileInputStream(file));
