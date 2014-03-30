@@ -57,6 +57,7 @@ public class Main {
         }
         if (fileName == null) {
             System.err.println("File is not specified!");
+            return;
         }
         System.out.println("Filename: " + fileName);
 
