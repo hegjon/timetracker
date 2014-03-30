@@ -31,21 +31,14 @@ public class DiffCalculator {
         this.ignoredDays = ignoredDays;
     }
 
-    public Period calculateDiff(Interval interval) {
-        if (isIntervalOnIgnoredDay(interval)) {
+    public Period diff(Interval interval) {
+        LocalDate day = interval.getStart().toLocalDate();
+        if (ignoredDays.contains(day)) {
             return interval.toPeriod();
+        } else {
+            int dayOfWeek = interval.getStart().getDayOfWeek();
+            Period defaultDuration = defaultWeekdayDuration.get(dayOfWeek);
+            return interval.toPeriod().minus(defaultDuration);
         }
-        int dayOfWeek = interval.getStart().getDayOfWeek();
-        Period defaultDuration = defaultWeekdayDuration.get(dayOfWeek);
-        return interval.toPeriod().minus(defaultDuration);
-    }
-
-    private boolean isIntervalOnIgnoredDay(Interval interval) {
-        for (LocalDate holiday : ignoredDays) {
-            if (interval.getStart().toLocalDate().equals(holiday)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

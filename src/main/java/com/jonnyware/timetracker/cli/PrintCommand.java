@@ -59,7 +59,7 @@ public class PrintCommand {
             Period diffPerWeek = Period.ZERO;
             for (Interval interval : values) {
                 Period period = interval.toPeriod();
-                Period diff = calculator.calculateDiff(interval);
+                Period diff = calculator.diff(interval);
 
                 diffPerWeek = diffPerWeek.plus(diff);
                 totalDiff = totalDiff.plus(diff);

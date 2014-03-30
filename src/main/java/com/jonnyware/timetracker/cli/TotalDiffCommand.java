@@ -36,7 +36,7 @@ public class TotalDiffCommand {
 
             Period total = Period.ZERO;
             for (Interval entry : entries) {
-                Period diff = calculator.calculateDiff(entry);
+                Period diff = calculator.diff(entry);
                 total = total.plus(diff);
             }
 
