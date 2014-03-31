@@ -1,6 +1,4 @@
-* Try to reduce the JVM startup
- - Flags
- - Nailgun
+* Adding .gitignore
 
 * Include more information in the command line tool
  - Vacation
