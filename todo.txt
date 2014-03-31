@@ -1,3 +1,5 @@
+* Last days of a year should be week 53 (not 1)
+
 * Include more information in the command line tool
  - Vacation
  - Public holidays..
