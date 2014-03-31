@@ -72,10 +72,12 @@ public class PrintCommand {
 
             System.out.printf("|   %2d | %7s | %9s |", week, Formatter.print(totalPerWeek), Formatter.print(diffPerWeek));
             if (!vacationForThisWeek.isEmpty()) {
-                System.out.printf("  %s", vacationForThisWeek);
+                System.out.printf(" %s", vacationForThisWeek);
             }
-            if(extraInformation.daysInWeek(week) != 7) {
-                System.out.printf("  %d days in week", week);
+
+            int daysInWeek = extraInformation.daysInWeek(week);
+            if( daysInWeek != 7) {
+                System.out.printf(" %d day(s) in week", daysInWeek);
             }
             System.out.println();
         }

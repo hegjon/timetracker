@@ -15,7 +15,6 @@
  */
 package com.jonnyware.timetracker;
 
-import org.joda.time.Duration;
 import org.joda.time.Period;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;

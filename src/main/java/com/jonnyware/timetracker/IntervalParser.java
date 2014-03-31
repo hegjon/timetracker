@@ -44,8 +44,8 @@ public class IntervalParser {
 
     public Collection<Interval> getIntervals() {
         Collection<Interval> result = new LinkedList<Interval>();
-        for (String interval : duration.split(" ")) {
-            result.add(getInterval(interval));
+        for (String interval : duration.split("\\+")) {
+            result.add(getInterval(interval.trim()));
         }
         return Collections.unmodifiableCollection(result);
     }

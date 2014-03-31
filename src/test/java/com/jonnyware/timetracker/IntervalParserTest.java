@@ -54,7 +54,7 @@ public class IntervalParserTest {
 
     @Test
     public void multipleEntries() {
-        IntervalParser parser = new IntervalParser(day, "08.00-16 18-20.10");
+        IntervalParser parser = new IntervalParser(day, "08.00-16 + 18-20.10");
 
         Interval i1 = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 16, 0));
         Interval i2 = new Interval(new DateTime(2014, 1, 1, 18, 0), new DateTime(2014, 1, 1, 20, 10));
@@ -80,7 +80,7 @@ public class IntervalParserTest {
     @Test
     public void openClosedAndOneOpenInterval() {
         DateTime now = new DateTime(2014, 1, 1, 21, 43);
-        IntervalParser parser = new IntervalParser(day, "9-16.30 20-", now);
+        IntervalParser parser = new IntervalParser(day, "9-16.30+20-", now);
 
         Interval closed = new Interval(new DateTime(2014, 1, 1, 9, 0), new DateTime(2014, 1, 1, 16, 30));
         Interval open = new Interval(new DateTime(2014, 1, 1, 9, 0), new DateTime(2014, 1, 1, 16, 30));
