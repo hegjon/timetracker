@@ -15,7 +15,6 @@
  */
 package com.jonnyware.timetracker;
 
-import com.jonnyware.timetracker.ExtraInformation;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -23,14 +22,19 @@ import static org.junit.Assert.assertEquals;
 public class ExtraInformationTest {
     @Test
     public void normalWeek() {
-        int actual = new ExtraInformation(2014).daysInAWeek(2);
+        int actual = new ExtraInformation(2014).daysInWeek(2);
         assertEquals(7, actual);
     }
 
     @Test
     public void firstWeekOfYear2014HaveOnly5Days() {
-        int actual = new ExtraInformation(2014).daysInAWeek(1);
+        int actual = new ExtraInformation(2014).daysInWeek(1);
         assertEquals(5, actual);
     }
 
+    @Test
+    public void lastWeekOfYear2014HaveOnly3Days() {
+        int actual = new ExtraInformation(2014).daysInWeek(53);
+        assertEquals(3, actual);
+    }
 }

@@ -25,7 +25,8 @@ import java.util.Map;
 
 public class PrintCommand {
     public void run(Map<String, Object> parsed, TimeEntryParser parser) {
-        System.out.printf("Year: %d%n", parser.getYear());
+        Integer year = parser.getYear();
+        System.out.printf("Year: %d%n", year);
         System.out.println("+------+---------+-----------+");
         System.out.println("| Week |  Total  |    Diff   |");
         System.out.println("+------+---------+-----------+");
@@ -42,6 +43,7 @@ public class PrintCommand {
 
         IgnoredDays ignoredDays = new IgnoredDays(parser.listVacations(), parser.neutralDays());
         DiffCalculator calculator = new DiffCalculator(hoursPerWeekday, ignoredDays.union());
+        ExtraInformation extraInformation = new ExtraInformation(year);
 
         Period totalSummed = Period.ZERO;
         Period totalDiff = Period.ZERO;
@@ -71,6 +73,9 @@ public class PrintCommand {
             System.out.printf("|   %2d | %7s | %9s |", week, Formatter.print(totalPerWeek), Formatter.print(diffPerWeek));
             if (!vacationForThisWeek.isEmpty()) {
                 System.out.printf("  %s", vacationForThisWeek);
+            }
+            if(extraInformation.daysInWeek(week) != 7) {
+                System.out.printf("  %d days in week", week);
             }
             System.out.println();
         }

@@ -24,12 +24,17 @@ public class ExtraInformation {
         this.year = year;
     }
 
-    public int daysInAWeek(int week) {
-        if(week > 1) {
+    public int daysInWeek(int week) {
+        if(week == 1) {
+            return 8 - dayOfWeek(1, 1);
+        }else if(week == 53) {
+            return dayOfWeek(12, 31);
+        } else {
             return 7;
         }
+    }
 
-        int dayOfTheWeek = new LocalDate(year, 1, 1).getDayOfWeek();
-        return 8 - dayOfTheWeek;
+    private int dayOfWeek(int monthOfYear, int dayOfMonth) {
+        return new LocalDate(year, monthOfYear, dayOfMonth).getDayOfWeek();
     }
 }
