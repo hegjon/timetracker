@@ -1,9 +1,5 @@
-* Adding .gitignore
-
 * Include more information in the command line tool
  - Vacation
  - Public holidays..
 
 * Create a man page
-
-* Add command to start a new interval from `now`
