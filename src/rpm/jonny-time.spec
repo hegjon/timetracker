@@ -50,6 +50,7 @@ install target/jtime.1.gz %{buildroot}%{_mandir}/man1/jtime.1.gz
 %files -f .mfiles
 %{_bindir}/jtime
 %doc LICENSE.txt
+%doc TODO.txt
 %doc %{_mandir}/man1/jtime.1.gz
 
 %files javadoc -f .mfiles-javadoc
