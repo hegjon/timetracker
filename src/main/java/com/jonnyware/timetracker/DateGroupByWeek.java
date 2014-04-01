@@ -15,6 +15,8 @@
  */
 package com.jonnyware.timetracker;
 
+import com.jonnyware.timetracker.cli.WeekOfYearWorkAround;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -30,7 +32,7 @@ public class DateGroupByWeek {
     public Map<String, Integer> getComments(int weekNumber) {
         Map<String, Integer> result = new TreeMap<String, Integer>();
         for (Vacation entry : vacations) {
-            if(entry.getDay().getWeekOfWeekyear() == weekNumber) {
+            if(WeekOfYearWorkAround.get(entry.getDay()) == weekNumber) {
                 String comment = entry.getComment();
                 int count = 0;
                 if(result.containsKey(comment)) {

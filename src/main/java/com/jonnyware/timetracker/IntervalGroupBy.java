@@ -15,6 +15,7 @@
  */
 package com.jonnyware.timetracker;
 
+import com.jonnyware.timetracker.cli.WeekOfYearWorkAround;
 import org.joda.time.Interval;
 
 import java.util.*;
@@ -30,7 +31,7 @@ public class IntervalGroupBy {
         Map<Integer, Collection<Interval>> weeks = new HashMap<Integer, Collection<Interval>>();
 
         for (Interval interval : intervals) {
-            int week = interval.getStart().getWeekOfWeekyear();
+            int week = WeekOfYearWorkAround.get(interval.getStart());
             if(!weeks.containsKey(week)) {
                 weeks.put(week, new LinkedList<Interval>());
             }

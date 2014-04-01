@@ -18,7 +18,9 @@ package com.jonnyware.timetracker;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -40,8 +42,19 @@ public class DateGroupByWeekTest {
         vacations.add(new Vacation(new LocalDate(2014, 1, 19), "Test3"));
 
         DateGroupByWeek dateGroupByWeek = new DateGroupByWeek(vacations);
-        assertEquals((Integer)1, dateGroupByWeek.getComments(1).get("Test1"));
-        assertEquals((Integer)2, dateGroupByWeek.getComments(3).get("Test2"));
-        assertEquals((Integer)1, dateGroupByWeek.getComments(3).get("Test3"));
+        assertEquals((Integer) 1, dateGroupByWeek.getComments(1).get("Test1"));
+        assertEquals((Integer) 2, dateGroupByWeek.getComments(3).get("Test2"));
+        assertEquals((Integer) 1, dateGroupByWeek.getComments(3).get("Test3"));
+    }
+
+    @Test
+    public void lastDayIn2014ShouldBeWeek53() {
+        Collection<Vacation> vacations = new LinkedList<Vacation>();
+        vacations.add(new Vacation(new LocalDate(2014, 12, 31), "Test"));
+
+        DateGroupByWeek dateGroupByWeek = new DateGroupByWeek(vacations);
+
+        assertEquals(0, dateGroupByWeek.getComments(1).size());
+        assertEquals(1, dateGroupByWeek.getComments(53).size());
     }
 }
