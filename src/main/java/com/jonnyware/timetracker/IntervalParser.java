@@ -51,12 +51,28 @@ public class IntervalParser {
     }
 
     private Interval getInterval(String interval) {
+        if(interval.contains("h") || interval.contains("m")) {
+            return parsePeriod(interval);
+        } else {
+            return parseInterval(interval);
+        }
+    }
+
+    private Interval parsePeriod(String period) {
+        Period p = Formatter.parse(period);
+        return day.toInterval().withPeriodAfterStart(p);
+    }
+
+    private Interval parseInterval(String interval) {
         String[] splitted = interval.split("-");
         DateTime start = time(splitted[0]);
         if(splitted.length <= 1) {
             return new Interval(start, now);
         } else {
             DateTime end = time(splitted[1]);
+            if(end.isBefore(start)) {
+                end = end.plusDays(1);
+            }
             return new Interval(start, end);
         }
     }

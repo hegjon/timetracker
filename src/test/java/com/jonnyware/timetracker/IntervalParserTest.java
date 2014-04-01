@@ -89,4 +89,42 @@ public class IntervalParserTest {
         assertThat(actual, hasSize(2));
         assertThat(actual, hasItems(closed, open));
     }
+
+    @Test
+    public void onlyTotalTimeInHoursSpecified() {
+        IntervalParser parser = new IntervalParser(day, "7h");
+
+        Interval open = new Interval(new DateTime(2014, 1, 1, 0, 0), new DateTime(2014, 1, 1, 7, 0));
+
+        Collection<Interval> actual = parser.getIntervals();
+        assertThat(actual, hasSize(1));
+        assertThat(actual, hasItems(open));
+    }
+
+    @Test
+    public void mixedIntervalAndPeriod() {
+        IntervalParser parser = new IntervalParser(day, "1h +8-16.30 +1h+ 10m +18-18.05 + 2h30m");
+
+        Interval period1 = new Interval(new DateTime(2014, 1, 1, 0, 0), new DateTime(2014, 1, 1, 1, 0));
+        Interval interval1 = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 16, 30));
+        Interval period2 = new Interval(new DateTime(2014, 1, 1, 0, 0), new DateTime(2014, 1, 1, 1, 0));
+        Interval period3 = new Interval(new DateTime(2014, 1, 1, 0, 0), new DateTime(2014, 1, 1, 0, 10));
+        Interval interval2 = new Interval(new DateTime(2014, 1, 1, 18, 0), new DateTime(2014, 1, 1, 18, 05));
+        Interval period4 = new Interval(new DateTime(2014, 1, 1, 0, 0), new DateTime(2014, 1, 1, 2, 30));
+
+        Collection<Interval> actual = parser.getIntervals();
+        assertThat(actual, hasSize(6));
+        assertThat(actual, hasItems(period1, interval1, period2, period3, interval2, period4));
+    }
+
+    @Test
+    public void intervalPassesOverMidnight() {
+        IntervalParser parser = new IntervalParser(day, "22-03.00");
+
+        Interval expected = new Interval(new DateTime(2014, 1, 1, 22, 0), new DateTime(2014, 1, 2, 3, 0));
+
+        Collection<Interval> actual = parser.getIntervals();
+        assertThat(actual, hasSize(1));
+        assertThat(actual, hasItem(expected));
+    }
 }
