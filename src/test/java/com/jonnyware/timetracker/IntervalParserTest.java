@@ -16,14 +16,11 @@
 package com.jonnyware.timetracker;
 
 import org.joda.time.DateTime;
-import org.joda.time.Interval;
 import org.joda.time.LocalDate;
+import org.joda.time.Period;
 import org.junit.Test;
 
-import java.util.Collection;
-
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertEquals;
 
 public class IntervalParserTest {
     private final LocalDate day = new LocalDate(2014, 1, 1);
@@ -31,37 +28,34 @@ public class IntervalParserTest {
     @Test
     public void hoursAndZeroAppendedMinutes() {
         IntervalParser parser = new IntervalParser(day, "08.00-16.00");
-        Interval expected = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 16, 0));
+        NormalDay expected = new NormalDay(new LocalDate(2014, 1, 1), Period.hours(8));
 
-        assertThat(parser.getIntervals(), hasItem(expected));
+        assertEquals(expected, parser.getIntervals());
     }
 
     @Test
     public void hoursAndMinutes() {
         IntervalParser parser = new IntervalParser(day, "08.10-16.50");
-        Interval expected = new Interval(new DateTime(2014, 1, 1, 8, 10), new DateTime(2014, 1, 1, 16, 50));
+        NormalDay expected = new NormalDay(new LocalDate(2014, 1, 1), Period.hours(8).withMinutes(40));
 
-        assertThat(parser.getIntervals(), hasItem(expected));
+        assertEquals(expected, parser.getIntervals());
     }
 
     @Test
     public void hoursNoMinutes() {
         IntervalParser parser = new IntervalParser(day, "08-16");
-        Interval expected = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 16, 0));
+        NormalDay expected = new NormalDay(new LocalDate(2014, 1, 1), Period.hours(8));
 
-        assertThat(parser.getIntervals(), hasItem(expected));
+        assertEquals(expected, parser.getIntervals());
     }
 
     @Test
     public void multipleEntries() {
         IntervalParser parser = new IntervalParser(day, "08.00-16 + 18-20.10");
 
-        Interval i1 = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 16, 0));
-        Interval i2 = new Interval(new DateTime(2014, 1, 1, 18, 0), new DateTime(2014, 1, 1, 20, 10));
-        Collection<Interval> actual = parser.getIntervals();
+        NormalDay expected = new NormalDay(new LocalDate(2014, 1, 1), Period.hours(10).withMinutes(10));
 
-        assertThat(actual, hasSize(2));
-        assertThat(actual, hasItems(i1, i2));
+        assertEquals(expected, parser.getIntervals());
     }
 
     @Test
@@ -69,12 +63,9 @@ public class IntervalParserTest {
         DateTime now = new DateTime(2014, 1, 1, 13, 43);
         IntervalParser parser = new IntervalParser(day, "9.31-", now);
 
-        Interval expected = new Interval(new DateTime(2014, 1, 1, 9, 31), now);
+        NormalDay expected = new NormalDay(new LocalDate(2014, 1, 1), Period.hours(4).withMinutes(12));
 
-
-        Collection<Interval> actual = parser.getIntervals();
-        assertThat(actual, hasSize(1));
-        assertThat(actual, hasItem(expected));
+        assertEquals(expected, parser.getIntervals());
     }
 
     @Test
@@ -82,49 +73,34 @@ public class IntervalParserTest {
         DateTime now = new DateTime(2014, 1, 1, 21, 43);
         IntervalParser parser = new IntervalParser(day, "9-16.30+20-", now);
 
-        Interval closed = new Interval(new DateTime(2014, 1, 1, 9, 0), new DateTime(2014, 1, 1, 16, 30));
-        Interval open = new Interval(new DateTime(2014, 1, 1, 9, 0), new DateTime(2014, 1, 1, 16, 30));
-
-        Collection<Interval> actual = parser.getIntervals();
-        assertThat(actual, hasSize(2));
-        assertThat(actual, hasItems(closed, open));
+        NormalDay expected = new NormalDay(new LocalDate(2014, 1, 1), Period.hours(9).withMinutes(13));
+        assertEquals(expected, parser.getIntervals());
     }
 
     @Test
     public void onlyTotalTimeInHoursSpecified() {
         IntervalParser parser = new IntervalParser(day, "7h");
 
-        Interval open = new Interval(new DateTime(2014, 1, 1, 0, 0), new DateTime(2014, 1, 1, 7, 0));
+        NormalDay expected = new NormalDay(new LocalDate(2014, 1, 1), Period.hours(7));
 
-        Collection<Interval> actual = parser.getIntervals();
-        assertThat(actual, hasSize(1));
-        assertThat(actual, hasItems(open));
+        assertEquals(expected, parser.getIntervals());
     }
 
     @Test
     public void mixedIntervalAndPeriod() {
         IntervalParser parser = new IntervalParser(day, "1h +8-16.30 +1h+ 10m +18-18.05 + 2h30m");
 
-        Interval period1 = new Interval(new DateTime(2014, 1, 1, 0, 0), new DateTime(2014, 1, 1, 1, 0));
-        Interval interval1 = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 16, 30));
-        Interval period2 = new Interval(new DateTime(2014, 1, 1, 0, 0), new DateTime(2014, 1, 1, 1, 0));
-        Interval period3 = new Interval(new DateTime(2014, 1, 1, 0, 0), new DateTime(2014, 1, 1, 0, 10));
-        Interval interval2 = new Interval(new DateTime(2014, 1, 1, 18, 0), new DateTime(2014, 1, 1, 18, 05));
-        Interval period4 = new Interval(new DateTime(2014, 1, 1, 0, 0), new DateTime(2014, 1, 1, 2, 30));
+        NormalDay expected = new NormalDay(new LocalDate(2014, 1, 1), Period.hours(13).withMinutes(15));
 
-        Collection<Interval> actual = parser.getIntervals();
-        assertThat(actual, hasSize(6));
-        assertThat(actual, hasItems(period1, interval1, period2, period3, interval2, period4));
+        assertEquals(expected, parser.getIntervals());
     }
 
     @Test
     public void intervalPassesOverMidnight() {
         IntervalParser parser = new IntervalParser(day, "22-03.00");
 
-        Interval expected = new Interval(new DateTime(2014, 1, 1, 22, 0), new DateTime(2014, 1, 2, 3, 0));
+        NormalDay expected = new NormalDay(new LocalDate(2014, 1, 1), Period.hours(5));
 
-        Collection<Interval> actual = parser.getIntervals();
-        assertThat(actual, hasSize(1));
-        assertThat(actual, hasItem(expected));
+        assertEquals(expected, parser.getIntervals());
     }
 }

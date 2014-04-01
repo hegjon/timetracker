@@ -31,14 +31,14 @@ public class DiffCalculator {
         this.ignoredDays = ignoredDays;
     }
 
-    public Period diff(Interval interval) {
-        LocalDate day = interval.getStart().toLocalDate();
+    public Period diff(NormalDay interval) {
+        LocalDate day = interval.getDay();
         if (ignoredDays.contains(day)) {
-            return interval.toPeriod();
+            return interval.getTotal();
         } else {
-            int dayOfWeek = interval.getStart().getDayOfWeek();
+            int dayOfWeek = interval.getDay().getDayOfWeek();
             Period defaultDuration = defaultWeekdayDuration.get(dayOfWeek);
-            return interval.toPeriod().minus(defaultDuration);
+            return interval.getTotal().minus(defaultDuration);
         }
     }
 }

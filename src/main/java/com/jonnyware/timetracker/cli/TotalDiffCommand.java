@@ -26,7 +26,7 @@ public class TotalDiffCommand {
 
     public void run(Map<String, Object> parsed, TimeEntryParser parser) {
         try {
-            Collection<Interval> entries = parser.listTimeEntries();
+            Collection<NormalDay> entries = parser.listTimeEntries();
 
             DefaultWeekdayDurationParser defaultDurationParser = new DefaultWeekdayDurationParser(parsed);
             Map<Integer, Period> hoursPerWeekday = defaultDurationParser.getSpecifiedMergedWithDefault();
@@ -35,7 +35,7 @@ public class TotalDiffCommand {
             DiffCalculator calculator = new DiffCalculator(hoursPerWeekday, ignoredDays.union());
 
             Period total = Period.ZERO;
-            for (Interval entry : entries) {
+            for (NormalDay entry : entries) {
                 Period diff = calculator.diff(entry);
                 total = total.plus(diff);
             }

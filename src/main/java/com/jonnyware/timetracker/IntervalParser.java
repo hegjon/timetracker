@@ -42,15 +42,15 @@ public class IntervalParser {
         this.now = now;
     }
 
-    public Collection<Interval> getIntervals() {
-        Collection<Interval> result = new LinkedList<Interval>();
+    public NormalDay getIntervals() {
+        Period total = Period.ZERO;
         for (String interval : duration.split("\\+")) {
-            result.add(getInterval(interval.trim()));
+            total = total.plus(getInterval(interval.trim()));
         }
-        return Collections.unmodifiableCollection(result);
+        return new NormalDay(day, total.normalizedStandard());
     }
 
-    private Interval getInterval(String interval) {
+    private Period getInterval(String interval) {
         if(interval.contains("h") || interval.contains("m")) {
             return parsePeriod(interval);
         } else {
@@ -58,22 +58,21 @@ public class IntervalParser {
         }
     }
 
-    private Interval parsePeriod(String period) {
-        Period p = Formatter.parse(period);
-        return day.toInterval().withPeriodAfterStart(p);
+    private Period parsePeriod(String period) {
+        return Formatter.parse(period);
     }
 
-    private Interval parseInterval(String interval) {
+    private Period parseInterval(String interval) {
         String[] splitted = interval.split("-");
         DateTime start = time(splitted[0]);
         if(splitted.length <= 1) {
-            return new Interval(start, now);
+            return new Interval(start, now).toPeriod();
         } else {
             DateTime end = time(splitted[1]);
             if(end.isBefore(start)) {
                 end = end.plusDays(1);
             }
-            return new Interval(start, end);
+            return new Interval(start, end).toPeriod();
         }
     }
 

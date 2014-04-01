@@ -15,10 +15,7 @@
  */
 package com.jonnyware.timetracker;
 
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
+import org.joda.time.*;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
 
@@ -42,10 +39,8 @@ public class TimeEntryParserTest {
 
         TimeEntryParser parser = parser(content, DateTime.now());
         LocalDate day = new LocalDate(2014, 4, 1);
-        DateTime from = day.toDateTime(new LocalTime(8, 0));
-        DateTime to = day.toDateTime(new LocalTime(16, 0));
-        Interval actual = parser.listTimeEntries().iterator().next();
-        assertEquals(new Interval(from, to), actual);
+        NormalDay actual = parser.listTimeEntries().iterator().next();
+        assertEquals(new NormalDay(day, Period.hours(8)), actual);
     }
 
     @Test
@@ -58,9 +53,8 @@ public class TimeEntryParserTest {
         DateTime now = new DateTime(2014, 12, 19, 11, 39);
         TimeEntryParser parser = parser(content, now);
         LocalDate day = new LocalDate(2014, 12, 19);
-        DateTime from = day.toDateTime(new LocalTime(9, 30));
-        Interval actual = parser.listTimeEntries().iterator().next();
-        assertEquals(new Interval(from, now), actual);
+        NormalDay actual = parser.listTimeEntries().iterator().next();
+        assertEquals(new NormalDay(day, Period.hours(2).withMinutes(9)), actual);
     }
 
     @Test

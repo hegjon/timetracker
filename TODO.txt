@@ -1,7 +1,3 @@
-* Support for intervals where end span over to next day
-
-* Refactor IntervalParser to return Date + Period instead of Interval
-
 * Include more information in the command line tool
  - Vacation
  - Public holidays..

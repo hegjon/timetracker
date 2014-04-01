@@ -31,12 +31,12 @@ public class PrintCommand {
         System.out.println("| Week |  Total  |    Diff   |");
         System.out.println("+------+---------+-----------+");
 
-        Collection<Interval> entries = parser.listTimeEntries();
+        Collection<NormalDay> entries = parser.listTimeEntries();
         Collection<Vacation> vacations = parser.listVacations();
         DateGroupByWeek vacationByWeek = new DateGroupByWeek(vacations);
 
         IntervalGroupBy groupBy = new IntervalGroupBy(entries);
-        Map<Integer, Collection<Interval>> weeks = groupBy.weekOfYear();
+        Map<Integer, Collection<NormalDay>> weeks = groupBy.weekOfYear();
 
         DefaultWeekdayDurationParser defaultDurationParser = new DefaultWeekdayDurationParser(parsed);
         Map<Integer, Period> hoursPerWeekday = defaultDurationParser.getSpecifiedMergedWithDefault();
@@ -52,15 +52,15 @@ public class PrintCommand {
             if (!weeks.containsKey(week) && vacationForThisWeek.isEmpty()) {
                 continue;
             }
-            Collection<Interval> values = Collections.EMPTY_LIST;
+            Collection<NormalDay> values = Collections.EMPTY_LIST;
             if (weeks.containsKey(week)) {
                 values = weeks.get(week);
             }
 
             Period totalPerWeek = Period.ZERO;
             Period diffPerWeek = Period.ZERO;
-            for (Interval interval : values) {
-                Period period = interval.toPeriod();
+            for (NormalDay interval : values) {
+                Period period = interval.getTotal();
                 Period diff = calculator.diff(interval);
 
                 diffPerWeek = diffPerWeek.plus(diff);

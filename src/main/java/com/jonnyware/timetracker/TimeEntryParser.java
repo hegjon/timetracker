@@ -79,8 +79,8 @@ public class TimeEntryParser {
         return result;
     }
 
-    public Collection<Interval> listTimeEntries() {
-        Collection<Interval> result = new LinkedList<Interval>();
+    public Collection<NormalDay> listTimeEntries() {
+        Collection<NormalDay> result = new LinkedList<NormalDay>();
 
         for (Month month : Month.values()) {
             if (!parsed.containsKey(month.getPretty())) {
@@ -94,8 +94,8 @@ public class TimeEntryParser {
 
                 if (Character.isDigit(value.codePointAt(0))) {
                     LocalDate date = new LocalDate(getYear(), month.getIndex(), dayOfMonth);
-                    Collection<Interval> interval = new IntervalParser(date, value, now).getIntervals();
-                    result.addAll(interval);
+                    NormalDay interval = new IntervalParser(date, value, now).getIntervals();
+                    result.add(interval);
                 }
             }
         }

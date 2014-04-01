@@ -21,19 +21,19 @@ import org.joda.time.Interval;
 import java.util.*;
 
 public class IntervalGroupBy {
-    private final Collection<Interval> intervals;
+    private final Collection<NormalDay> intervals;
 
-    public IntervalGroupBy(Collection<Interval> intervals) {
+    public IntervalGroupBy(Collection<NormalDay> intervals) {
         this.intervals = intervals;
     }
 
-    public Map<Integer, Collection<Interval>> weekOfYear() {
-        Map<Integer, Collection<Interval>> weeks = new HashMap<Integer, Collection<Interval>>();
+    public Map<Integer, Collection<NormalDay>> weekOfYear() {
+        Map<Integer, Collection<NormalDay>> weeks = new HashMap<Integer, Collection<NormalDay>>();
 
-        for (Interval interval : intervals) {
-            int week = WeekOfYearWorkAround.get(interval.getStart());
+        for (NormalDay interval : intervals) {
+            int week = WeekOfYearWorkAround.get(interval.getDay());
             if(!weeks.containsKey(week)) {
-                weeks.put(week, new LinkedList<Interval>());
+                weeks.put(week, new LinkedList<NormalDay>());
             }
 
             weeks.get(week).add(interval);

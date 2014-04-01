@@ -17,6 +17,8 @@ package com.jonnyware.timetracker;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
+import org.joda.time.Period;
 import org.junit.Test;
 
 import java.util.Collection;
@@ -30,20 +32,20 @@ import static org.junit.Assert.assertTrue;
 public class IntervalGroupByTest {
     @Test
     public void empty() {
-        IntervalGroupBy groupBy = new IntervalGroupBy(Collections.<Interval>emptyList());
+        IntervalGroupBy groupBy = new IntervalGroupBy(Collections.<NormalDay>emptyList());
         assertTrue(groupBy.weekOfYear().isEmpty());
     }
 
     @Test
     public void many() {
-        Interval i1 = new Interval(new DateTime(2014, 1, 1, 7, 0), new DateTime(2014, 1, 1, 17, 0));
-        Interval i2 = new Interval(new DateTime(2014, 1, 2, 7, 0), new DateTime(2014, 1, 2, 17, 0));
+        NormalDay i1 = new NormalDay(new LocalDate(2014, 1, 1), Period.hours(1));
+        NormalDay i2 = new NormalDay(new LocalDate(2014, 1, 2), Period.hours(2));
 
-        Interval i3 = new Interval(new DateTime(2014, 1, 6, 7, 0), new DateTime(2014, 1, 6, 17, 0));
-        Interval i4 = new Interval(new DateTime(2014, 1, 7, 7, 0), new DateTime(2014, 1, 7, 17, 0));
-        Interval i5 = new Interval(new DateTime(2014, 1, 12, 7, 0), new DateTime(2014, 1, 12, 17, 0));
+        NormalDay i3 = new NormalDay(new LocalDate(2014, 1, 6), Period.hours(3));
+        NormalDay i4 = new NormalDay(new LocalDate(2014, 1, 7), Period.hours(4));
+        NormalDay i5 = new NormalDay(new LocalDate(2014, 1, 12), Period.hours(5));
 
-        Collection<Interval> intervals = new LinkedList<Interval>();
+        Collection<NormalDay> intervals = new LinkedList<NormalDay>();
         intervals.add(i1);
         intervals.add(i2);
         intervals.add(i3);
@@ -51,8 +53,8 @@ public class IntervalGroupByTest {
         intervals.add(i5);
 
         IntervalGroupBy groupBy = new IntervalGroupBy(intervals);
-        Collection<Interval> week1 = groupBy.weekOfYear().get(1);
-        Collection<Interval> week2 = groupBy.weekOfYear().get(2);
+        Collection<NormalDay> week1 = groupBy.weekOfYear().get(1);
+        Collection<NormalDay> week2 = groupBy.weekOfYear().get(2);
 
         assertTrue(week1.contains(i1));
         assertTrue(week1.contains(i2));

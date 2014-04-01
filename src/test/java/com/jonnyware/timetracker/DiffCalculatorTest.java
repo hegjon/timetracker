@@ -34,7 +34,7 @@ public class DiffCalculatorTest {
 
     @Test
     public void tenMinutesWorkingOnThursday() {
-        Interval i = new Interval(new DateTime(2014, 1, 2, 8, 0), new DateTime(2014, 1, 2, 8, 10));
+        NormalDay i = new NormalDay(new LocalDate(2014, 1, 2), Period.minutes(10));
         Period actual = calculator.diff(i);
         Period expected = Period.hours(-8).withMinutes(10);
 
@@ -43,7 +43,7 @@ public class DiffCalculatorTest {
 
     @Test
     public void eighthHoursWorkingOnMonday() {
-        Interval i = new Interval(new DateTime(2014, 1, 6, 8, 0), new DateTime(2014, 1, 6, 16, 0));
+        NormalDay i = new NormalDay(new LocalDate(2014, 1, 6), Period.hours(8));
         Period actual = calculator.diff(i);
 
         assertEquals(Period.ZERO, actual);
@@ -51,7 +51,7 @@ public class DiffCalculatorTest {
 
     @Test
     public void eighthHoursAndTenMinutesWorkingOnFriday() {
-        Interval i = new Interval(new DateTime(2014, 1, 3, 8, 0), new DateTime(2014, 1, 3, 16, 10));
+        NormalDay i = new NormalDay(new LocalDate(2014, 1, 3), Period.hours(8).withMinutes(10));
         Period actual = calculator.diff(i);
 
         assertEquals(Period.minutes(10), actual);
@@ -59,7 +59,7 @@ public class DiffCalculatorTest {
 
     @Test
     public void twoHoursWorkingOnSaturday() {
-        Interval i = new Interval(new DateTime(2014, 1, 4, 8, 0), new DateTime(2014, 1, 4, 10, 0));
+        NormalDay i = new NormalDay(new LocalDate(2014, 1, 4), Period.hours(2));
         Period actual = calculator.diff(i);
 
         assertEquals(Period.hours(2), actual);
@@ -67,7 +67,7 @@ public class DiffCalculatorTest {
 
     @Test
     public void twoHoursWorkingOnPublicHoliday() {
-        Interval i = new Interval(new DateTime(2014, 1, 1, 8, 0), new DateTime(2014, 1, 1, 10, 0));
+        NormalDay i = new NormalDay(new LocalDate(2014, 1, 1), Period.hours(2));
         Period actual = calculator.diff(i);
 
         assertEquals(Period.hours(2), actual);
