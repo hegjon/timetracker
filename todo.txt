@@ -1,4 +1,4 @@
-* Last days of a year should be week 53 (not 1)
+* Include support for enter the Period with syntax like: 8h10m
 
 * Include more information in the command line tool
  - Vacation
