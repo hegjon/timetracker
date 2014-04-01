@@ -1,3 +1,5 @@
+* Use ANTLR instead of snakeyaml
+
 * Include more information in the command line tool
  - Vacation
  - Public holidays..
