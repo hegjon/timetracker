@@ -1,4 +1,6 @@
-* Use ANTLR instead of snakeyaml
+* Use ANTLR/JFlex instead of snakeyaml
+ - No need for un-needed characters
+ - Faster
 
 * Include more information in the command line tool
  - Vacation
