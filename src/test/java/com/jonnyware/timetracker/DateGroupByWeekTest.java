@@ -34,7 +34,7 @@ public class DateGroupByWeekTest {
 
     @Test
     public void more() {
-        Collection<Vacation> vacations = new LinkedList<Vacation>();
+        Collection<SpecialDay> vacations = new LinkedList<SpecialDay>();
         vacations.add(new Vacation(new LocalDate(2014, 1, 1), "Test1"));
 
         vacations.add(new Vacation(new LocalDate(2014, 1, 13), "Test2"));
@@ -49,7 +49,7 @@ public class DateGroupByWeekTest {
 
     @Test
     public void lastDayIn2014ShouldBeWeek53() {
-        Collection<Vacation> vacations = new LinkedList<Vacation>();
+        Collection<SpecialDay> vacations = new LinkedList<SpecialDay>();
         vacations.add(new Vacation(new LocalDate(2014, 12, 31), "Test"));
 
         DateGroupByWeek dateGroupByWeek = new DateGroupByWeek(vacations);

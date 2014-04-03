@@ -21,7 +21,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.joda.time.LocalDate;
 
-public class Vacation {
+public class Vacation implements SpecialDay {
     private final LocalDate day;
     private final String comment;
 
@@ -33,10 +33,12 @@ public class Vacation {
         this.comment = comment;
     }
 
+    @Override
     public LocalDate getDay() {
         return day;
     }
 
+    @Override
     public String getComment() {
         return comment;
     }

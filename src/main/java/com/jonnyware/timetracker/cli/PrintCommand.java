@@ -21,6 +21,7 @@ import org.joda.time.Period;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class PrintCommand {
@@ -32,7 +33,9 @@ public class PrintCommand {
         System.out.println("+------+---------+-----------+");
 
         Collection<NormalDay> entries = parser.listTimeEntries();
-        Collection<Vacation> vacations = parser.listVacations();
+        Collection<SpecialDay> vacations = new LinkedList<SpecialDay>();
+        vacations.addAll(parser.listVacations());
+        vacations.addAll(parser.neutralDays());
         DateGroupByWeek vacationByWeek = new DateGroupByWeek(vacations);
 
         IntervalGroupBy groupBy = new IntervalGroupBy(entries);

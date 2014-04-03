@@ -23,15 +23,15 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class DateGroupByWeek {
-    private final Collection<Vacation> vacations;
+    private final Collection<SpecialDay> vacations;
 
-    public DateGroupByWeek(Collection<Vacation> vacation) {
+    public DateGroupByWeek(Collection<SpecialDay> vacation) {
         this.vacations = vacation;
     }
 
     public Map<String, Integer> getComments(int weekNumber) {
         Map<String, Integer> result = new TreeMap<String, Integer>();
-        for (Vacation entry : vacations) {
+        for (SpecialDay entry : vacations) {
             if(WeekOfYearWorkAround.get(entry.getDay()) == weekNumber) {
                 String comment = entry.getComment();
                 int count = 0;
