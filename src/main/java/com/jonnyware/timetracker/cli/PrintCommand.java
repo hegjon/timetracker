@@ -27,16 +27,21 @@ import java.util.Map;
 public class PrintCommand {
     public void run(Map<String, Object> parsed, TimeEntryParser parser) {
         Integer year = parser.getYear();
-        System.out.printf("Year: %d%n", year);
+        Collection<Vacation> vacations = parser.listVacations();
+        Collection<NeutralDay> neutralDays = parser.neutralDays();
+
+        System.out.printf("Year:          %d%n", year);
+        System.out.printf("Vacation days: %d%n", vacations.size());
+        System.out.printf("Neutral days:  %d%n", neutralDays.size());
         System.out.println("+------+---------+-----------+");
         System.out.println("| Week |  Total  |    Diff   |");
         System.out.println("+------+---------+-----------+");
 
         Collection<NormalDay> entries = parser.listTimeEntries();
-        Collection<SpecialDay> vacations = new LinkedList<SpecialDay>();
-        vacations.addAll(parser.listVacations());
-        vacations.addAll(parser.neutralDays());
-        DateGroupByWeek vacationByWeek = new DateGroupByWeek(vacations);
+        Collection<SpecialDay> specialDays = new LinkedList<SpecialDay>();
+        specialDays.addAll(vacations);
+        specialDays.addAll(neutralDays);
+        DateGroupByWeek vacationByWeek = new DateGroupByWeek(specialDays);
 
         IntervalGroupBy groupBy = new IntervalGroupBy(entries);
         Map<Integer, Collection<NormalDay>> weeks = groupBy.weekOfYear();
@@ -44,7 +49,7 @@ public class PrintCommand {
         DefaultWeekdayDurationParser defaultDurationParser = new DefaultWeekdayDurationParser(parsed);
         Map<Integer, Period> hoursPerWeekday = defaultDurationParser.getSpecifiedMergedWithDefault();
 
-        IgnoredDays ignoredDays = new IgnoredDays(parser.listVacations(), parser.neutralDays());
+        IgnoredDays ignoredDays = new IgnoredDays(vacations, neutralDays);
         DiffCalculator calculator = new DiffCalculator(hoursPerWeekday, ignoredDays.union());
         ExtraInformation extraInformation = new ExtraInformation(year);
 
