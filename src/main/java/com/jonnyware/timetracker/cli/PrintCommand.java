@@ -30,9 +30,7 @@ public class PrintCommand {
         Collection<Vacation> vacations = parser.listVacations();
         Collection<NeutralDay> neutralDays = parser.neutralDays();
 
-        System.out.printf("Year:          %d%n", year);
-        System.out.printf("Vacation days: %d%n", vacations.size());
-        System.out.printf("Neutral days:  %d%n", neutralDays.size());
+        System.out.printf("Year:     %d%n", year);
         System.out.println("+------+---------+-----------+");
         System.out.println("| Week |  Total  |    Diff   |");
         System.out.println("+------+---------+-----------+");
@@ -92,5 +90,7 @@ public class PrintCommand {
         System.out.println("+------+---------+-----------+");
         System.out.printf("|  Sum | %7s | %9s |%n", Formatter.print(totalSummed), Formatter.print(totalDiff));
         System.out.println("+------+---------+-----------+");
+        System.out.printf("Vacation: %2d day(s)%n", vacations.size());
+        System.out.printf("Neutral:  %2d day(s)%n", neutralDays.size());
     }
 }

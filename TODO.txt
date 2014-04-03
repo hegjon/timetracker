@@ -5,3 +5,9 @@
 * Include more information in the command line tool
  - Vacation
  - Public holidays..
+
+* Find a better name:
+ - timetracker
+ - Jonny-time
+ - Hammer-time (You can't touch this)
+ - text based timetracker (tbt)
