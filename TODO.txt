@@ -11,3 +11,16 @@
  - Jonny-time
  - Hammer-time (You can't touch this)
  - text based timetracker (tbt)
+
+* Make a generic zip package
+ - Should work on Mac OSX and Windows (but not limited to those).
+ - Contains all the dependencies except the JRE
+
+* Support different projects/clients
+
+* Ability to update the document
+ - Start/stop command
+ - Add command
+
+* Special days
+ - Support days with non standard hours (half day etc)

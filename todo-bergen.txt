@@ -1,4 +1,0 @@
-* Support different projects/clients
-* Ability to update the document
- - Start/stop command
- - Add command
