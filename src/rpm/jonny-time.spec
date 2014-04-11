@@ -1,5 +1,5 @@
 Name: jonny-time
-Version: 1.0
+Version: 0.1
 Release: 1%{?dist}
 Summary: Jonny time tracker
 
