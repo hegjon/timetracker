@@ -33,12 +33,28 @@ vacations
 
 OPTIONS
 =======
---file <file>, -f <file>     Read the time entries from <file>
+--file <file>, -f <file>     Read the time entries from <file>. Will fallback to **JTIME_DEFAULT_FILE** environment variable if no argument is given.
 --help, -h                   Shows help message and exit
 
 FILEFORMAT
 ==========
-jtime fileformat is based on YAML, example:
- * year
- * default
- * january, february, march, april, may, june, july, august, september, november, december
+jtime fileformat is based on YAML. Top level keys:
+
+year
+  Required. The current year for the document.
+
+default
+  Optional. The number of hours and minutes per weekday.
+
+january
+  Optional.
+
+february, march, april, may, june, july, august, september, november, december
+  Optional.
+
+EXAMPLE
+=======
+
+.. include:: example.time.yaml
+   :code: none
+   :literal:

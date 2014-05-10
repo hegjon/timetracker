@@ -38,7 +38,10 @@ Summary: Javadoc for %{name}
 
 %build
 %mvn_build
-rst2man < src/doc/jtime.rst | gzip > target/jtime.1.gz
+
+pushd src/doc
+  rst2man < jtime.rst | gzip > ../../target/jtime.1.gz
+popd
 
 %install
 %mvn_install
