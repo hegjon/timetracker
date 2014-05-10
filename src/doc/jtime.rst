@@ -35,3 +35,10 @@ OPTIONS
 =======
 --file <file>, -f <file>     Read the time entries from <file>
 --help, -h                   Shows help message and exit
+
+FILEFORMAT
+==========
+jtime fileformat is based on YAML, example:
+ * year
+ * default
+ * january, february, march, april, may, june, july, august, september, november, december
