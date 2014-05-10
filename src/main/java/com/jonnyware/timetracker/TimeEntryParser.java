@@ -18,6 +18,7 @@ package com.jonnyware.timetracker;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
+import org.joda.time.Period;
 
 import java.util.*;
 
@@ -45,10 +46,18 @@ public class TimeEntryParser {
             Map<Integer, String> monthEntries = (Map<Integer, String>) parsed.get(month.getPretty());
             for (Map.Entry<Integer, String> entry : monthEntries.entrySet()) {
                 int dayOfMonth = entry.getKey();
+                String value = entry.getValue();
 
-                if (entry.getValue().startsWith("=")) {
-                    LocalDate date = new LocalDate(getYear(), month.getIndex(), dayOfMonth);
-                    result.add(new NeutralDay(date, entry.getValue().substring(1)));
+                LocalDate date = new LocalDate(getYear(), month.getIndex(), dayOfMonth);
+                if (value.startsWith("=(")) {
+                    int right = value.indexOf(')');
+                    if (right > 0) {
+                        String period = value.substring(2, right);
+                        Period hours = Formatter.parse(period);
+                        result.add(new NeutralDay(date, value.substring(right + 1), hours));
+                    }
+                } else if (value.startsWith("=")) {
+                    result.add(new NeutralDay(date, value.substring(1)));
                 }
             }
         }
@@ -104,7 +113,7 @@ public class TimeEntryParser {
     }
 
     private Integer getDayOfMonth(Object day) {
-        if(day instanceof Double) {
+        if (day instanceof Double) {
             return ((Double) day).intValue();
         } else if (day instanceof Integer) {
             return (Integer) day;

@@ -20,17 +20,24 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.joda.time.LocalDate;
+import org.joda.time.Period;
 
 public final class NeutralDay implements SpecialDay {
     private final String comment;
     private final LocalDate day;
+    private final Period hours;
 
     public NeutralDay(LocalDate day, String comment) {
+        this(day, comment, Period.ZERO);
+    }
+
+    public NeutralDay(LocalDate day, String comment, Period hours) {
         Validate.notNull(day);
         Validate.notNull(comment);
 
         this.day = day;
         this.comment = comment;
+        this.hours = hours;
     }
 
     @Override
@@ -55,16 +62,16 @@ public final class NeutralDay implements SpecialDay {
             return false;
         }
         NeutralDay rhs = (NeutralDay) obj;
-        return new EqualsBuilder().append(day, rhs.day).append(comment, rhs.comment).isEquals();
+        return new EqualsBuilder().append(day, rhs.day).append(comment, rhs.comment).append(hours, rhs.hours).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(11, 13).append(day).append(comment).toHashCode();
+        return new HashCodeBuilder(11, 13).append(day).append(comment).append(hours).toHashCode();
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("day", day).append("comment", comment).toString();
+        return new ToStringBuilder(this).append("day", day).append("comment", comment).append("hours", hours).toString();
     }
 }

@@ -70,6 +70,18 @@ public class TimeEntryParserTest {
     }
 
     @Test
+    public void halfHoliday() {
+        String content =
+                "year: 2014\n" +
+                        "june:\n" +
+                        " 10:  =(4h)Public holiday\n";
+
+        TimeEntryParser parser = parser(content, DateTime.now());
+        LocalDate day = new LocalDate(2014, 6, 10);
+        assertEquals(new NeutralDay(day, "Public holiday", Period.hours(4)), parser.neutralDays().iterator().next());
+    }
+
+    @Test
     public void vacation() {
         String content =
                 "year: 2014\n" +
