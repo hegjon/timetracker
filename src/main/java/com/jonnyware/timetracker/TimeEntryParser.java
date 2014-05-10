@@ -87,9 +87,9 @@ public class TimeEntryParser {
                 continue;
             }
 
-            Map<Integer, String> monthEntries = (Map<Integer, String>) parsed.get(month.getPretty());
-            for (Map.Entry<Integer, String> entry : monthEntries.entrySet()) {
-                Integer dayOfMonth = entry.getKey();
+            Map<Object, String> monthEntries = (Map<Object, String>) parsed.get(month.getPretty());
+            for (Map.Entry<Object, String> entry : monthEntries.entrySet()) {
+                Integer dayOfMonth = getDayOfMonth(entry.getKey());
                 String value = entry.getValue();
 
                 if (Character.isDigit(value.codePointAt(0))) {
@@ -101,5 +101,15 @@ public class TimeEntryParser {
         }
 
         return Collections.unmodifiableCollection(result);
+    }
+
+    private Integer getDayOfMonth(Object day) {
+        if(day instanceof Double) {
+            return ((Double) day).intValue();
+        } else if (day instanceof Integer) {
+            return (Integer) day;
+        } else {
+            throw new IllegalArgumentException("'" + day + "' is not a valid day");
+        }
     }
 }

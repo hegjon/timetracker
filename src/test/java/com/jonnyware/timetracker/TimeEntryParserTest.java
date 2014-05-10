@@ -81,6 +81,19 @@ public class TimeEntryParserTest {
         assertEquals(new Vacation(day, "Skiing"), parser.listVacations().iterator().next());
     }
 
+
+    @Test
+    public void shouldHandleZeroPrefixForDays() {
+        String content = "year: 2014\n" +
+                "may:\n" +
+                " 08: 10.00-12.00\n";
+
+        TimeEntryParser parser = parser(content, DateTime.now());
+        LocalDate day = new LocalDate(2014, 5, 8);
+        NormalDay actual = parser.listTimeEntries().iterator().next();
+        assertEquals(new NormalDay(day, Period.hours(2)), actual);
+    }
+
     @Test
     public void empty() {
         String content = "year: 2014";
