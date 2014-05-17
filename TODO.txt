@@ -1,6 +1,7 @@
 * Use ANTLR/JFlex instead of snakeyaml
  - No need for un-needed characters
  - Faster
+ - Typesafe config might be a good choice
 
 * Include more information in the command line tool
  - Vacation
