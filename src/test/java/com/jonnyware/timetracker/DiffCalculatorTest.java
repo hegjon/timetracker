@@ -72,4 +72,12 @@ public class DiffCalculatorTest {
 
         assertEquals(Period.hours(2), actual);
     }
+
+    @Test
+    public void twoHoursWorkingOnHalfPublicHoliday() {
+        NormalDay i = new NormalDay(new LocalDate(2014, 1, 1), Period.hours(2));
+        Period actual = calculator.diff(i);
+
+        assertEquals(Period.hours(2), actual);
+    }
 }

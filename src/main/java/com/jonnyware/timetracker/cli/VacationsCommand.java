@@ -21,7 +21,7 @@ import com.jonnyware.timetracker.Vacation;
 import java.util.Map;
 
 public class VacationsCommand {
-    public void run(Map<String, Object> parsed, TimeEntryParser parser) {
+    public void run(TimeEntryParser parser) {
         for (Vacation vacation : parser.listVacations()) {
             System.out.println(vacation.getDay());
         }

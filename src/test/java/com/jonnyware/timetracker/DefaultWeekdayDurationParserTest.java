@@ -17,8 +17,8 @@ package com.jonnyware.timetracker;
 
 import org.joda.time.Period;
 import org.junit.Test;
-import org.yaml.snakeyaml.Yaml;
 
+import java.util.Collections;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -26,7 +26,7 @@ import static org.junit.Assert.assertFalse;
 
 public class DefaultWeekdayDurationParserTest {
     private DefaultWeekdayDurationParser parser(String content) {
-        Map<String, Object> parsed = (Map<String, Object>) new Yaml().load(content);
+        Map<String, Object> parsed = Collections.emptyMap();
         return new DefaultWeekdayDurationParser(parsed);
     }
 

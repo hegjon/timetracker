@@ -20,12 +20,11 @@ import com.jonnyware.timetracker.cli.TotalDiffCommand;
 import com.jonnyware.timetracker.cli.VacationsCommand;
 import org.apache.commons.cli.*;
 import org.joda.time.DateTime;
-import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Map;
+import java.io.InputStream;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException, ParseException {
@@ -62,15 +61,15 @@ public class Main {
         }
         File file = new File(fileName);
 
-        Map<String, Object> parsed = (Map<String, Object>) new Yaml().load(new FileInputStream(file));
-        TimeEntryParser parser = new TimeEntryParser(parsed, DateTime.now());
+        InputStream input = new FileInputStream(file);
+        TimeEntryParser parser = new TimeEntryParser(input, DateTime.now());
 
         if (command.equals("print")) {
-            new PrintCommand().run(parsed, parser);
+            new PrintCommand().run(parser);
         } else if (command.equals("total-diff")) {
-            new TotalDiffCommand().run(parsed, parser);
+            new TotalDiffCommand().run(parser);
         } else if (command.equals("vacations")) {
-            new VacationsCommand().run(parsed, parser);
+            new VacationsCommand().run(parser);
         } else {
             System.err.println("Unknown command: '" + command + "'");
         }

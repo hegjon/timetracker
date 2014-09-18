@@ -17,25 +17,20 @@ package com.jonnyware.timetracker;
 
 import org.joda.time.*;
 import org.junit.Test;
-import org.yaml.snakeyaml.Yaml;
-
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TimeEntryParserTest {
     private TimeEntryParser parser(String content, DateTime now) {
-        Map<String, Object> parsed = (Map<String, Object>) new Yaml().load(content);
-        return new TimeEntryParser(parsed, now);
+        return new TimeEntryParser(content, now);
     }
 
     @Test
     public void oneDay() {
         String content =
                 "year: 2014\n" +
-                "april:\n" +
-                " 1:  08.00-16.00\n";
+                "1/4  08.00-16.00\n";
 
         TimeEntryParser parser = parser(content, DateTime.now());
         LocalDate day = new LocalDate(2014, 4, 1);
@@ -47,8 +42,7 @@ public class TimeEntryParserTest {
     public void openDay() {
         String content =
                 "year: 2014\n" +
-                        "december:\n" +
-                        " 19:  09.30-\n";
+                "19.12  09.30-\n";
 
         DateTime now = new DateTime(2014, 12, 19, 11, 39);
         TimeEntryParser parser = parser(content, now);
@@ -61,8 +55,7 @@ public class TimeEntryParserTest {
     public void holiday() {
         String content =
                 "year: 2014\n" +
-                "june:\n" +
-                " 10:  =Public holiday\n";
+                " 10/6:  =Public holiday\n";
 
         TimeEntryParser parser = parser(content, DateTime.now());
         LocalDate day = new LocalDate(2014, 6, 10);
@@ -73,8 +66,7 @@ public class TimeEntryParserTest {
     public void halfHoliday() {
         String content =
                 "year: 2014\n" +
-                        "june:\n" +
-                        " 10:  =(4h)Public holiday\n";
+                " 10/6:  =(4h)Public holiday\n";
 
         TimeEntryParser parser = parser(content, DateTime.now());
         LocalDate day = new LocalDate(2014, 6, 10);
@@ -85,8 +77,7 @@ public class TimeEntryParserTest {
     public void vacation() {
         String content =
                 "year: 2014\n" +
-                "february:\n" +
-                " 27:  +Skiing\n";
+                " 27.2:  +Skiing\n";
 
         TimeEntryParser parser = parser(content, DateTime.now());
         LocalDate day = new LocalDate(2014, 2, 27);
@@ -97,8 +88,7 @@ public class TimeEntryParserTest {
     @Test
     public void shouldHandleZeroPrefixForDays() {
         String content = "year: 2014\n" +
-                "may:\n" +
-                " 08: 10.00-12.00\n";
+                "08/5: 10.00-12.00\n";
 
         TimeEntryParser parser = parser(content, DateTime.now());
         LocalDate day = new LocalDate(2014, 5, 8);

@@ -24,11 +24,11 @@ import java.util.Map;
 
 public class TotalDiffCommand {
 
-    public void run(Map<String, Object> parsed, TimeEntryParser parser) {
+    public void run(TimeEntryParser parser) {
         try {
             Collection<NormalDay> entries = parser.listTimeEntries();
 
-            DefaultWeekdayDurationParser defaultDurationParser = new DefaultWeekdayDurationParser(parsed);
+            DefaultWeekdayDurationParser defaultDurationParser = new DefaultWeekdayDurationParser(null);
             Map<Integer, Period> hoursPerWeekday = defaultDurationParser.getSpecifiedMergedWithDefault();
 
             IgnoredDays ignoredDays = new IgnoredDays(parser.listVacations(), parser.neutralDays());

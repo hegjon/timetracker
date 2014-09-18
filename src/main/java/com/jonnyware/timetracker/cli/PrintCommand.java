@@ -25,7 +25,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 public class PrintCommand {
-    public void run(Map<String, Object> parsed, TimeEntryParser parser) {
+    public void run(TimeEntryParser parser) {
         Integer year = parser.getYear();
         Collection<Vacation> vacations = parser.listVacations();
         Collection<NeutralDay> neutralDays = parser.neutralDays();
@@ -44,7 +44,7 @@ public class PrintCommand {
         IntervalGroupBy groupBy = new IntervalGroupBy(entries);
         Map<Integer, Collection<NormalDay>> weeks = groupBy.weekOfYear();
 
-        DefaultWeekdayDurationParser defaultDurationParser = new DefaultWeekdayDurationParser(parsed);
+        DefaultWeekdayDurationParser defaultDurationParser = new DefaultWeekdayDurationParser(null);
         Map<Integer, Period> hoursPerWeekday = defaultDurationParser.getSpecifiedMergedWithDefault();
 
         IgnoredDays ignoredDays = new IgnoredDays(vacations, neutralDays);

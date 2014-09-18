@@ -15,73 +15,92 @@
  */
 package com.jonnyware.timetracker;
 
+import com.jonnyware.timetracker.analyzer.DateConverter;
+import com.jonnyware.timetracker.analyzer.DayMonthDateConverter;
+import com.jonnyware.timetracker.line.TimeEntry;
+import com.jonnyware.timetracker.line.TimeEntryLineParser;
+import com.jonnyware.timetracker.line.YearLineParser;
 import org.joda.time.DateTime;
-import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.Period;
 
+import java.io.InputStream;
 import java.util.*;
 
 public class TimeEntryParser {
-    private final Map<String, Object> parsed;
+    private final Scanner scanner;
     private final DateTime now;
+    private Integer year;
+    Map<LocalDate, String> parsed = new TreeMap<LocalDate, String>();
 
-    public TimeEntryParser(Map<String, Object> parsed, DateTime now) {
-        this.parsed = parsed;
+    public TimeEntryParser(InputStream input, DateTime now) {
+        this.scanner = new Scanner(input);
         this.now = now;
+        parse();
+    }
+
+    public TimeEntryParser(String input, DateTime now) {
+        this.scanner = new Scanner(input);
+        this.now = now;
+        parse();
+    }
+
+    private void parse() {
+        LinkedList<TimeEntry> entries = new LinkedList<TimeEntry>();
+        while (scanner.hasNextLine()) {
+            String line = LineMassager.massage(scanner.nextLine());
+            if (line.isEmpty()) {
+                continue;
+            }
+
+            if (year == null) {
+                year = new YearLineParser(line).getYear();
+            } else {
+                TimeEntry entry = new TimeEntryLineParser(line).getTimeEntry();
+                entries.add(entry);
+            }
+        }
+
+        DateConverter dateConverter = new DayMonthDateConverter(year);
+        for (TimeEntry entry : entries) {
+            LocalDate date = dateConverter.toDate(entry);
+            parsed.put(date, entry.getText());
+        }
     }
 
     public Integer getYear() {
-        return ((Integer) parsed.get("year"));
+        return year;
     }
 
     public Collection<NeutralDay> neutralDays() {
         Collection<NeutralDay> result = new LinkedList<NeutralDay>();
 
-        for (Month month : Month.values()) {
-            if (!parsed.containsKey(month.getPretty())) {
-                continue;
-            }
+        for (Map.Entry<LocalDate, String> entry : parsed.entrySet()) {
+            LocalDate date = entry.getKey();
+            String value = entry.getValue();
 
-            Map<Integer, String> monthEntries = (Map<Integer, String>) parsed.get(month.getPretty());
-            for (Map.Entry<Integer, String> entry : monthEntries.entrySet()) {
-                int dayOfMonth = entry.getKey();
-                String value = entry.getValue();
-
-                LocalDate date = new LocalDate(getYear(), month.getIndex(), dayOfMonth);
-                if (value.startsWith("=(")) {
-                    int right = value.indexOf(')');
-                    if (right > 0) {
-                        String period = value.substring(2, right);
-                        Period hours = Formatter.parse(period);
-                        result.add(new NeutralDay(date, value.substring(right + 1), hours));
-                    }
-                } else if (value.startsWith("=")) {
-                    result.add(new NeutralDay(date, value.substring(1)));
+            if (value.startsWith("=(")) {
+                int right = value.indexOf(')');
+                if (right > 0) {
+                    String period = value.substring(2, right);
+                    Period hours = Formatter.parse(period);
+                    result.add(new NeutralDay(date, value.substring(right + 1), hours));
                 }
+            } else if (value.startsWith("=")) {
+                result.add(new NeutralDay(date, value.substring(1)));
             }
         }
-
         return result;
     }
 
     public Collection<Vacation> listVacations() {
         Collection<Vacation> result = new LinkedList<Vacation>();
 
-        for (Month month : Month.values()) {
-            if (!parsed.containsKey(month.getPretty())) {
-                continue;
-            }
-
-            Map<Integer, String> monthEntries = (Map<Integer, String>) parsed.get(month.getPretty());
-            for (Map.Entry<Integer, String> entry : monthEntries.entrySet()) {
-                Integer dayOfMonth = entry.getKey();
-                String value = entry.getValue();
-
-                if (value.startsWith("+")) {
-                    LocalDate date = new LocalDate(getYear(), month.getIndex(), dayOfMonth);
-                    result.add(new Vacation(date, value.substring(1)));
-                }
+        for (Map.Entry<LocalDate, String> entry : parsed.entrySet()) {
+            LocalDate date = entry.getKey();
+            String value = entry.getValue();
+            if (value.startsWith("+")) {
+                result.add(new Vacation(date, value.substring(1)));
             }
         }
 
@@ -91,34 +110,16 @@ public class TimeEntryParser {
     public Collection<NormalDay> listTimeEntries() {
         Collection<NormalDay> result = new LinkedList<NormalDay>();
 
-        for (Month month : Month.values()) {
-            if (!parsed.containsKey(month.getPretty())) {
-                continue;
-            }
+        for (Map.Entry<LocalDate, String> entry : parsed.entrySet()) {
+            LocalDate date = entry.getKey();
+            String value = entry.getValue();
 
-            Map<Object, String> monthEntries = (Map<Object, String>) parsed.get(month.getPretty());
-            for (Map.Entry<Object, String> entry : monthEntries.entrySet()) {
-                Integer dayOfMonth = getDayOfMonth(entry.getKey());
-                String value = entry.getValue();
-
-                if (Character.isDigit(value.codePointAt(0))) {
-                    LocalDate date = new LocalDate(getYear(), month.getIndex(), dayOfMonth);
-                    NormalDay interval = new IntervalParser(date, value, now).getIntervals();
-                    result.add(interval);
-                }
+            if (Character.isDigit(value.codePointAt(0))) {
+                NormalDay interval = new IntervalParser(date, value, now).getIntervals();
+                result.add(interval);
             }
         }
 
         return Collections.unmodifiableCollection(result);
-    }
-
-    private Integer getDayOfMonth(Object day) {
-        if (day instanceof Double) {
-            return ((Double) day).intValue();
-        } else if (day instanceof Integer) {
-            return (Integer) day;
-        } else {
-            throw new IllegalArgumentException("'" + day + "' is not a valid day");
-        }
     }
 }
