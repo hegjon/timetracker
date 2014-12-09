@@ -48,7 +48,7 @@ popd
 install -d %{buildroot}%{_mandir}/man1
 install target/jtime.1.gz %{buildroot}%{_mandir}/man1/jtime.1.gz
 
-%jpackage_script com.jonnyware.timetracker.Main "-Xint" "" jonny-time:joda-time:apache-commons-lang3:snakeyaml:apache-commons-cli:apache-commons-codec jtime true
+%jpackage_script com.jonnyware.timetracker.cli.Main "-Xint" "" jonny-time:joda-time:apache-commons-lang3:snakeyaml:apache-commons-cli:apache-commons-codec jtime true
 
 %files -f .mfiles
 %{_bindir}/jtime
