@@ -29,4 +29,9 @@ public class LineMassagerTest {
     public void complex() {
         assertEquals("a bc", LineMassager.massage("\t a bc\t  # comment  a "));
     }
+
+    @Test
+    public void startWithComment() {
+        assertEquals("", LineMassager.massage("#comment"));
+    }
 }
