@@ -13,7 +13,6 @@ BuildRequires: java-devel >= 1:1.5.0
 BuildRequires: maven-local
 Requires:      java-headless >= 1:1.5.0
 
-BuildRequires: snakeyaml
 BuildRequires: joda-time
 BuildRequires: apache-commons-lang3
 BuildRequires: apache-commons-cli
@@ -48,7 +47,7 @@ popd
 install -d %{buildroot}%{_mandir}/man1
 install target/jtime.1 %{buildroot}%{_mandir}/man1/jtime.1
 
-%jpackage_script com.jonnyware.timetracker.cli.Main "-Xint" "" jonny-time:joda-time:apache-commons-lang3:snakeyaml:apache-commons-cli:apache-commons-codec jtime true
+%jpackage_script com.jonnyware.timetracker.cli.Main "-Xint" "" jonny-time:joda-time:apache-commons-lang3:apache-commons-cli:apache-commons-codec jtime true
 
 %files -f .mfiles
 %{_bindir}/jtime

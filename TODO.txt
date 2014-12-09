@@ -1,8 +1,3 @@
-* Use ANTLR/JFlex instead of snakeyaml
- - No need for un-needed characters
- - Faster
- - Typesafe config might be a good choice
-
 * Include more information in the command line tool
  - Vacation
  - Public holidays..
@@ -12,6 +7,7 @@
  - Jonny-time
  - Hammer-time (You can't touch this)
  - text based timetracker (tbt)
+ - simple time tracker tool (sttt, s3t, st3)
 
 * Make a generic zip package
  - Should work on Mac OSX and Windows (but not limited to those).
