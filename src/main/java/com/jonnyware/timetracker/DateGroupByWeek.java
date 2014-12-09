@@ -15,8 +15,6 @@
  */
 package com.jonnyware.timetracker;
 
-import com.jonnyware.timetracker.cli.WeekOfYearWorkAround;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;

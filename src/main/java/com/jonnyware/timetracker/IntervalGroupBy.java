@@ -15,9 +15,6 @@
  */
 package com.jonnyware.timetracker;
 
-import com.jonnyware.timetracker.cli.WeekOfYearWorkAround;
-import org.joda.time.Interval;
-
 import java.util.*;
 
 public class IntervalGroupBy {
