@@ -13,11 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.jonnyware.timetracker;
+package com.jonnyware.timetracker.cli;
 
+import com.jonnyware.timetracker.TimeEntryParser;
 import com.jonnyware.timetracker.cli.PrintCommand;
-import com.jonnyware.timetracker.cli.TotalDiffCommand;
-import com.jonnyware.timetracker.cli.VacationsCommand;
 import org.apache.commons.cli.*;
 import org.joda.time.DateTime;
 
@@ -44,13 +43,6 @@ public class Main {
             return;
         }
 
-
-        String command = "print";
-
-        if (!cmd.getArgList().isEmpty()) {
-            command = (String) cmd.getArgList().get(0);
-        }
-
         String fileName = System.getenv("JTIME_DEFAULT_FILE");
         if (cmd.hasOption("f")) {
             fileName = cmd.getOptionValue("f");
@@ -64,14 +56,6 @@ public class Main {
         InputStream input = new FileInputStream(file);
         TimeEntryParser parser = new TimeEntryParser(input, DateTime.now());
 
-        if (command.equals("print")) {
-            new PrintCommand().run(parser);
-        } else if (command.equals("total-diff")) {
-            new TotalDiffCommand().run(parser);
-        } else if (command.equals("vacations")) {
-            new VacationsCommand().run(parser);
-        } else {
-            System.err.println("Unknown command: '" + command + "'");
-        }
+        PrintCommand.run(parser);
     }
 }

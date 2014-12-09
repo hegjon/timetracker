@@ -24,7 +24,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 public class PrintCommand {
-    public void run(TimeEntryParser parser) {
+    public static void run(TimeEntryParser parser) {
         Integer year = parser.getYear();
         Collection<Vacation> vacations = parser.listVacations();
         Collection<NeutralDay> neutralDays = parser.neutralDays();
