@@ -55,6 +55,6 @@ february, march, april, may, june, july, august, september, november, december
 EXAMPLE
 =======
 
-.. include:: example.time.yaml
+.. include:: ./example.time.yaml
    :code: none
    :literal:

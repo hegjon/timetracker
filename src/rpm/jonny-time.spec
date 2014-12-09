@@ -38,8 +38,8 @@ Summary: Javadoc for %{name}
 %build
 %mvn_build
 
-pushd src/doc
-  rst2man < jtime.rst > ../../target/jtime.1
+pushd doc
+  rst2man < unix-man-page.rst > ../target/jtime.1
 popd
 
 %install
