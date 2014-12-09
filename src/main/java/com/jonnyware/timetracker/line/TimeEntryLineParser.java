@@ -19,6 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TimeEntryLineParser {
+    private final static Pattern regex = Pattern.compile("^(\\d+)\\W(\\d+)\\W(.*)$");
     private final String line;
 
     public TimeEntryLineParser(String line) {
@@ -26,7 +27,6 @@ public class TimeEntryLineParser {
     }
 
     public TimeEntry getTimeEntry() {
-        Pattern regex = Pattern.compile("(\\d+)\\W(\\d+)\\W(.*)");
         Matcher matcher = regex.matcher(line);
         if(matcher.find()) {
             int firstNumber = Integer.valueOf(matcher.group(1));

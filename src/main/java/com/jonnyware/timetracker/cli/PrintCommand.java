@@ -16,7 +16,6 @@
 package com.jonnyware.timetracker.cli;
 
 import com.jonnyware.timetracker.*;
-import org.joda.time.Interval;
 import org.joda.time.Period;
 
 import java.util.Collection;

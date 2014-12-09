@@ -15,8 +15,6 @@
  */
 package com.jonnyware.timetracker;
 
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.Period;
 import org.junit.Test;
@@ -25,7 +23,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 

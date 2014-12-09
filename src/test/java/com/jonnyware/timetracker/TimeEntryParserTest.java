@@ -76,7 +76,7 @@ public class TimeEntryParserTest {
     @Test
     public void vacation() {
         String content =
-                "year: 2014\n" +
+                "year 2014\n" +
                 " 27.2:  +Skiing\n";
 
         TimeEntryParser parser = parser(content, DateTime.now());
@@ -87,7 +87,7 @@ public class TimeEntryParserTest {
 
     @Test
     public void shouldHandleZeroPrefixForDays() {
-        String content = "year: 2014\n" +
+        String content = "year : 2014\n" +
                 "08/5: 10.00-12.00\n";
 
         TimeEntryParser parser = parser(content, DateTime.now());

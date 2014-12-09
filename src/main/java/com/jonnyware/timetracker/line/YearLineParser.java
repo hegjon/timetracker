@@ -19,6 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class YearLineParser {
+    private final static Pattern regex = Pattern.compile("^year\\s*\\W\\s*(-?\\d+)$", Pattern.CASE_INSENSITIVE);
     private final String line;
 
     public YearLineParser(String line) {
@@ -26,7 +27,6 @@ public class YearLineParser {
     }
 
     public int getYear() {
-        Pattern regex = Pattern.compile("^year\\s*\\W\\s*(-?\\d+)$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = regex.matcher(line);
         if(matcher.find()) {
             return Integer.valueOf(matcher.group(1));

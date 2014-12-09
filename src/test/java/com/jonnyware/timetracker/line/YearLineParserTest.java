@@ -31,7 +31,7 @@ public class YearLineParserTest {
         new YearLineParser("year: ").getYear();
     }
 
-    @Test()
+    @Test
     public void minusYear() {
         int actual = new YearLineParser("year: -2014").getYear();
         assertEquals(-2014, actual);
