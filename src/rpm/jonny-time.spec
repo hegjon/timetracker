@@ -40,13 +40,13 @@ Summary: Javadoc for %{name}
 %mvn_build
 
 pushd src/doc
-  rst2man < jtime.rst | gzip > ../../target/jtime.1.gz
+  rst2man < jtime.rst > ../../target/jtime.1
 popd
 
 %install
 %mvn_install
 install -d %{buildroot}%{_mandir}/man1
-install target/jtime.1.gz %{buildroot}%{_mandir}/man1/jtime.1.gz
+install target/jtime.1 %{buildroot}%{_mandir}/man1/jtime.1
 
 %jpackage_script com.jonnyware.timetracker.cli.Main "-Xint" "" jonny-time:joda-time:apache-commons-lang3:snakeyaml:apache-commons-cli:apache-commons-codec jtime true
 
@@ -54,7 +54,7 @@ install target/jtime.1.gz %{buildroot}%{_mandir}/man1/jtime.1.gz
 %{_bindir}/jtime
 %doc LICENSE.txt
 %doc TODO.txt
-%doc %{_mandir}/man1/jtime.1.gz
+%doc %{_mandir}/man1/jtime.1*
 
 %files javadoc -f .mfiles-javadoc
 %doc LICENSE.txt
